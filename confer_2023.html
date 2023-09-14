@@ -72,9 +72,13 @@
 <script>
     document.getElementById('toggle-button').addEventListener('click', () => {
         document.getElementById('qr-code').classList.toggle('hidden');
+        
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
     });
-    </script>    
-
+    </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
