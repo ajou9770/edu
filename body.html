@@ -1,22 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>조합원 가입신청서</title>
 </head>
 <body>
-    <h1>안녕하세요 이 문서는 html문서입니다.</h1> 
-    <h2>안녕하세요 이 문서는 html문서입니다.</h2> 
-    <h3>안녕하세요 이 문서는 html문서입니다.</h3> 
-    <h4>안녕하세요 이 문서는 html문서입니다.</h4> 
-    <h5>안녕하세요 이 문서는 html문서입니다.</h5> 
-    <button onclick="submit()">제출하기</button>
-    <script>
-       function submit() {
-        alert("네이버로 이동합니다.");
-        window.location.href="http://www.naver.com";
-       }
-    </script>
+
+<div class="container mt-5">
+    <form>
+        <div class="mb-3">
+            <label for="name" class="form-label">성명</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="phone" class="form-label">연락처</label>
+            <input type="tel" class="form-control" id="phone" name="phone" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="email" class="form-label">이메일</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="address" class="form-label">주소</label>
+            <input type="text" class="form-control" id="address" name="address" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="route" class="form-label">가입경로</label>
+            <select class="form-select" id="route" name="route" required>
+                <option value="" disabled selected>선택하세요</option>
+                <option value="인터넷">인터넷</option>
+                <option value="지인추천">지인추천</option>
+                <option value="기타">기타</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="shareNumber" class="form-label">출자좌수</label>
+            <input type="number" class="form-control" id="shareNumber" name="shareNumber" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="purpose" class="form-label">기타 가입목적</label>
+            <textarea class="form-control" id="purpose" name="purpose" rows="3" required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">제출</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
