@@ -36,6 +36,13 @@
   a {
     text-decoration: none;
   }
+  .hidden {
+    display: none;
+}
+#qr-code-img {
+    width: 100%;
+    max-width: 300px;
+}
 </style>
 </head>
 <body>
@@ -59,7 +66,12 @@
 <!--   <hr>
   <span><a href="https://ajou9770.github.io/notice/ETC/appsheet.html" target="_blank"><i class="fab fa-google fa-lg"></i>oogle App Sheet 실무활용예시▶</a></span> -->
 </div>
-
+<div class="text-center my-5">
+<button id="toggle-button" class="btn btn-secondary"><i class="fas fa-qrcode fa-lg"></i></button>
+    <div id="qr-code" class="hidden my-3">
+        <img id="qr-code-img" src="img/qrcode_privacy.png" alt="QR 코드">
+    </div>
+</div>
 <!-- 문의 버튼들 
 <div class="contact-buttons">
     <div class="btn-group" role="group">
@@ -69,6 +81,15 @@
         <i class="fas fa-envelope"></i></a>
     </div>
   </div>-->
-  
+  <script>
+    document.getElementById('toggle-button').addEventListener('click', () => {
+        document.getElementById('qr-code').classList.toggle('hidden');
+        
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    });
+    </script>
 </body>
 </html>
