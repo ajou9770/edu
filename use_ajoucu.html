@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <title>🤖디지털채널을 활용한 조합원관리 사례</title>
+   
+   <script>
+    $(document).ready(function(){
+      $("#sectOnebtn").click(function(){
+        $("#sectOne").toggle("slow");
+      });
+      $("#sectTwobtn").click(function(){
+        $("#sectTwo").toggle("slow");
+      });
+      $("#sectThreebtn").click(function(){
+        $("#sectThree").toggle("slow");
+      });
+      $("#memobtn").click(function(){
+        $("#memo").toggle("slow");
+      });
+    });
+    </script>
+
+    <style>
+        body {
+            margin: 10px;
+            max-width: 1000px;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+        }
+        img {
+          width: 200px;
+          height: 200px;
+          border-radius: 10px;
+        }
+        .img_sm {
+          width: 100px;
+          height: 100px;
+          border-radius: 10px;
+        }
+        .img_se {
+          width: 100px;
+          height: 150px;
+          border-radius: 10px;
+        }
+        .zoomimg {
+          width: 400px;
+          height: 400px;
+          border-radius: 10px;
+        }
+        .zoomimg_se {
+          width: 250px;
+          height: 350px;
+          border-radius: 10px;
+        }
+        .zoomimg_sm {
+          width: 200px;
+          height: 200px;
+          border-radius: 10px;
+        }
+        a {
+          text-decoration: none;
+         }
+        .space_around {
+          display: flex;
+          justify-content: space-around;
+        }
+        #sectOne, #sectTwo, #sectThree, #memo, #paysend {
+          display: none;
+        }
+        textarea {
+          border-radius: 5px;
+          padding: 5px;
+        }
+        .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+    .modal-close {
+      color: #aaa;
+      float: right;
+      font-size: 15px;
+      font-weight: bold;
+    }
+    </style>
+</head>
+<body>
+<div class="center"><h3>🚀디지털채널을 활용한 조합원 관리 사례</h3>
+</div>
+<hr>
+<button id="sectOnebtn" type="button" class="btn btn-success btn-lg" style="min-width:300px">✨조합원관리 및 홍보</button>
+<br><br>
+<div id="sectOne">
+
+<div class="accordion accordion-flush" id="accordionFlushExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button 
+        class="accordion-button collapsed" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#flush-collapseOne" 
+        aria-expanded="false" 
+        aria-controls="flush-collapseOne">
+          # 신입 교직원 가입 및 주거래 이용 안내. 
+        </button>
+      </h2>
+      </div>
+      <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">
+            1. 사전 개인정보제공.활동동의 징수 [입사서류에 신협에 대한 성명 및 연락처(핸드폰)제공.활용 동의서 징구] ☞ 의료원 인사복지팀 협조
+            <br><br>
+            2. 매월초 신입 교직원에게 신협이용안내(URL)Link가 포함된 카톡알림톡 발송.[가입,혜택,🎫웰컴쿠폰 등]  
+            <br>
+             <a href="http://ajou9770.github.io/usertip/index.html" target="_blank"> 💻신협이용안내사이트→ </a>
+             <br>
+             <strong>#신입교직원알림톡
+              <br>
+             <img src="img/newmem_info.jpg" title="신입교직원 안내 알림톡" onclick="zoomImg(this)" title="✔클릭 하시면 확대 됩니다">
+             </strong>
+              <br>
+            3. 신입 교직원 입문교육시 약 10분간 신협이용안내 브리핑
+            <br>
+      </div>
+      </div>
+    </div>
+   
+
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#flush-collapseTwo" 
+        aria-expanded="false" 
+        aria-controls="flush-collapseTwo">
+          # 신규 조합원 신협 주거래(참조합원) 혜택 안내
+        </button>
+      </h2>
+      <div 
+      id="flush-collapseTwo" 
+      class="accordion-collapse collapse" 
+      data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">
+          1. 매월 1일 전월가입 조합원에게 참조합원세트(급여이체,온뱅크,체크카드)완성시 🎫쿠폰 발송
+          <br><br>
+          2. 조합원 전용 소노호텔&리조트 실시간 예약사이트 로그인 방법 및 이용 안내    
+          <br>
+          <a href="http://ajou9770.github.io/usertip/dm.html" target="_blank">🏕조합원전용 소노호텔&리조트 이용안내→</a>
+          <br><br>
+          3. 조합 이용고 배당 등 혜택 안내로 주거래 은행으로 사용 독려.
+          <br> 
+          <a href="http://ajou9770.github.io/usertip/mile.html" target="_blank">🤷‍♂️이용고배당안내→</a>
+          <br>    
+        </div>
+    </div>
+    </div>
+     <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#flush-collapseThree" 
+        aria-expanded="false" 
+        aria-controls="flush-collapseThree">
+          # 계속거래 조합원 관리 방법
+        </button>
+      </h2>
+      <div 
+      id="flush-collapseThree" 
+      class="accordion-collapse collapse" 
+      data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">
+          1. 참조합원 우대 정책 (으뜸이 생일선물 자택 발송, 소노리조트 이용우대, 이벤트 우선 참여권 부여 등)
+          <br><br>
+          2. 참조합원 이용실적이 그대로 이용고배당으로 연결됨에 따른 고액 배당 수령    
+          <br><br>
+          3. 총회배당전, 사전 이용고배당 조회 서비스로 이용고 배당에 대한 이슈 부각(참조합원 평균 이용고 배당 약 30만원 내외)
+          <br>
+          <img src="img/search_mile.jpg" onclick="zoomImg(this)" title="✔클릭 하시면 확대 됩니다"/>
+          <br>
+          ※ 참조합원 현황: 약 1,030여명 (전체 교직원 조합원의 약 37% , 급여이체 조합원 약 1,700여명 )
+          <br><br>
+          4. 공제(보험)상담(사전설계동의) 온라인 상담 신청서 접수
+          <br>
+          <a href="https://ajou9770.github.io/event/homesafe" target="_blank">📝온라인상담신청서 →</a>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <br>
+    <button id="sectTwobtn" type="button" class="btn btn-secondary btn-lg" style="min-width:300px">🎉조합원 복리후생 및 혜택</button>
+    <br><br>
+    <div id="sectTwo">
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsefour" aria-expanded="false" aria-controls="flush-collapseOne">
+            # 카톡비즈채널을 통한 밀착 홍보 및 커뮤니티 
+          </button>
+        </h2>
+        <div id="flush-collapsefour" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+          <div class="accordion-body">
+              1. 조합 카톡 채널을 통한 조합 홍보 등 이벤트 집중.
+              <br>
+              <a href="http://pf.kakao.com/_dfhkK" target="_blank"> 아주대의료원신협카톡채널→</a>
+              <br>
+              <img src="img/katokch_img.jpg" class="img_sm" onclick="zoomImg_sm(this)" title="✔클릭 하시면 확대 됩니다">
+               <br>
+               <a href="https://center-pf.kakao.com/" target="_blank">채널관리자→ </a>
+              <br><br>
+              2. 매월 채널 친구 조합원에게 세븐일레븐(아주대병원) 할인쿠폰 발송.[20%]  
+              <br>
+               <strong>#세븐일레븐 할인 🎫쿠폰<img src="img/coupon_katok.jpg" class="img_se" onclick="zoomImg_se(this)" title="✔클릭 하시면 확대 됩니다">
+               </strong>
+                <br>
+              3. 조합 전용 템플릿을 통한 카톡 알림톡 안내 및 신청 접수 등 조합원과 쌍방향 커뮤니티  
+              <br>
+              <a href="https://www.ppurio.com/mgr/index.qri" target="_blank"> 💻뿌리오(알림톡, SMS)전송 플랫폼 → </a>
+              <br>
+               <br>
+        </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsefive" aria-expanded="false" aria-controls="flush-collapseTwo">
+            # 조합원 이벤트 및 모바일 쿠폰 활성화
+          </button>
+        </h2>
+        <div 
+        id="flush-collapsefive" 
+        class="accordion-collapse collapse" 
+        data-bs-parent="#accordionFlushExample">
+          <div class="accordion-body">
+            <h5>1. 분기별 (년4회) 채널 조합원 전체 대상 세븐일레븐 상품 무료 증정 이벤트(약2,800여명 대상) 
+            </h5>
+              <br>
+            <img src="img/coupon_free.jpg" class="img_se" onclick="zoomImg_se(this)" title="✔클릭 하시면 확대 됩니다">
+               <br>
+            <br>
+            <h5>2. 으뜸이(약 520여명) 생일 선물(축하 카드) 자택주소 발송 (월 약 50명 내외/ 15,000원상당)   
+            </h5>
+              <br>
+            ※ 알림톡 및 <a href="http://google.com" target="_blank">구글폼(구글 스크립)</a>을 활용한 주소 확인 (업무효율성 확보 / 유선확인 불필요) 
+            <br><br>
+            <h5>3. 년 분기별 사회공헌활동(헌혈캠페인 등 시행) / 분기(회)당 약 40여명 내외 조합원 참여
+            </h5>
+              <br> 
+            <a href="http://ajou9770.github.io/notice/camp.html" target="_blank">✨헌혈캠페인 안내→</a>
+            <br>
+            <strong>📢헌혈캠페인 안내 알림톡<img src="img/camp_info.jpg" class="img_se" onclick="zoomImg_se(this)" title="✔클릭 하시면 확대 됩니다">
+            </strong>            
+              <br><br>
+            <h5>4. 중앙회 실적 달성 이벤트 등 효과적 홍보 및 참여 유도
+             </h5>
+              <br>
+             <strong> # 2022년 하반기 현대카드 이벤트 실적 약 250여건 (전국 7위 달성) 
+              </strong>
+              <br>
+              <strong>📢플러스적금대상자여부확인신청 친구톡<img src="img/plus_draw_q.jpg" class="img_se" onclick="zoomImg_se(this)" title="✔클릭 하시면 확대 됩니다">
+              </strong>
+              <br>
+              <strong>📢대상여부 결과 회신(알림톡)<img src="img/plus_draw.jpg" class="img_se" onclick="zoomImg_se(this)" title="✔클릭 하시면 확대 됩니다">
+              </strong>            
+                <br>             
+                <br>     
+          </div>
+      </div>
+      </div>
+       <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" 
+          type="button" data-bs-toggle="collapse" 
+          data-bs-target="#flush-collapsesix" 
+          aria-expanded="false" 
+          aria-controls="flush-collapseTwo">
+            # 기타 조합원 후생복리 및 편의 사항 제공
+          </button>
+        </h2>
+        <div 
+        id="flush-collapsesix" 
+        class="accordion-collapse collapse" 
+        data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">
+            <br>
+            1. 신입교직원 온뱅크를 통한 비대면 온라인 가입(개설)안내    
+            <br>
+            <a href="http://ajou9770.github.io/usertip/process.html" target="_blank">📝온라인가입안내 →</a>
+            <br><br>
+            2. 조합원 대출한도,금리, 보증보험료 등 간편 조회 서비스 제공
+            <br>
+            <a href="http://ajou9770.github.io/usertip/loan.html" target="_blank">💰대출계산기 →</a>
+            <br><br>
+            3. 조합원 경조금 제도 안내 및 온라인 신청
+            <br>
+            <a href="http://ajou9770.github.io/usertip/congrat.html" target="_blank">🎀경조금신청바로가기 →</a>
+            <br> # 결혼, 사망, 퇴직 등 10만원~50만원 지급(청구에 의한 지급)
+            <br><br>
+            4. 조합 총회 기념품,명절특판, 공동구매 쇼핑몰 운영 (#비상설) 
+            <br>
+            <a href="http://ajoucu.com" target="_blank">🎁특판몰 둘러 보기 →</a>
+            <br>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      <br>
+      <button id="sectThreebtn" type="button" class="btn btn-primary btn-lg" style="min-width:300px">⚙조합원관리 도구 모음</button>
+      <br><br>
+      <div id="sectThree">
+      <div class="dropdown">
+        <a class="btn btn-secondary btn-md dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-screwdriver-wrench"></i> 관리도구
+        </a>
+        <ul class="dropdown-menu" style="background-color: rgb(195, 230, 242);">
+          <li><a class="dropdown-item" href="https://workspace.google.com/intl/ko/lp/business/" target="_blank">구글(폼),워크스페이스(서버)</a></li>
+          <li><a class="dropdown-item" href="https://www.ppurio.com" target="_blank">카톡알림톡 (뿌리오)</a></li>
+          <li><a class="dropdown-item" href="https://kakaobusiness.gitbook.io/main" target="_blank">비즈 카카오톡</a></li>
+          <li><a class="dropdown-item" href="https://biz.giftishow.com/home" target="_blank">비즈 기프티쇼(모바일쿠폰)</a></li>
+          <li><a class="dropdown-item" href="https://visualstudio.microsoft.com/ko/" target="_blank">웹문서 작성툴(비주얼스튜디오)</a></li>
+          <li><a class="dropdown-item" href="https://github.com/" target="_blank">웹문서 배포(Github)</a></li>
+          <li><a class="dropdown-item" href="https://www.miricanvas.com/" target="_blank">이미지제작 툴(미리캔버스)</a></li>
+          <li><a class="dropdown-item" href="https://www.w3schools.com/" target="_blank">웹페이지제작 배움터(W3school)</a></li>
+          <li><a class="dropdown-item" href="https://getbootstrap.com/" target="_blank">웹페이지제작 라이브러리(Bootstrap)</a></li>
+          <li><a class="dropdown-item" href="https://bitly.com" target="_blank">단축Url변환(Bitly)</a></li>
+          <li><a class="dropdown-item" href="https://dpromotion.io/" target="_blank">🎉이벤트프로모션사이트</a></li>
+        </ul>
+      </div>
+      <p class="fw-semibold"><mark style="background-color: beige; background-color:beige; border-radius: 5px;">💻 PC로 접속하시면 보기에 좋습니다. </mark></p>   
+      <div class="dropdown">
+        <a class="btn btn-secondary btn-md dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-brands fa-google-play"></i>Google app Form 샘플코드
+        </a>
+        <ul class="dropdown-menu" style="background-color: rgb(195, 230, 242);">
+          <li><a class="dropdown-item" href="https://drive.google.com/file/d/1nfL_s9HyXM708krTsoEI1ho1DbfMgM23/view?usp=sharing" target="_blank">📧자동이메일발송폼(html샘플)</a></li>
+          <li><a class="dropdown-item" href="https://drive.google.com/file/d/1Y3nicu3b3vSetbxfWjiCHoo1pDikxmTB/view?usp=sharing" target="_blank">📧자동이메일발송폼(code.gs샘플)</a></li>
+          <li><a class="dropdown-item" href="https://drive.google.com/file/d/1tEq9vC77Mz1bpoV2B3D5flrOMi2DMVMK/view?usp=sharing" target="_blank">📝서명포함폼양식(html샘플)</a></li>
+          <li><a class="dropdown-item" href="https://drive.google.com/file/d/1vNkSpNDTgG_BD026IsZZXXgtpTkxmtKE/view?usp=sharing" target="_blank">📝서명포함폼양식(code.gs샘플)</a></li>
+          <li><a class="dropdown-item" href="https://drive.google.com/file/d/1-xbjSmcEEnJjcb_Cq3EudtWLUnhIDZJT/view?usp=sharing" target="_blank">📝📩개인정보동의+email발송(html샘플)</a></li>
+          <li><a class="dropdown-item" href="https://drive.google.com/file/d/1RqxKgzoQlfa2dPRPXNBzXGaKCRn8SoQw/view?usp=sharing" target="_blank">📝📩개인정보동의+email발송(code.gs샘플)</a></li>  
+          <li><a class="dropdown-item" href="https://drive.google.com/file/d/1Dqgenv0JTihsS8RQ3f69Xwsk3yCT_sBA/view?usp=sharing" target="_blank">🏕리조트성수기예약신청(index.html)</a></li>
+          <li><a class="dropdown-item" href="https://drive.google.com/file/d/1b8XRTTHT9lQgZ5qePrdheyT6ERJFZvY7/view?usp=sharing" target="_blank">🏕리조트성수기예약신청(code.gs)</a></li> 
+          <li><a class="dropdown-item" href="https://drive.google.com/file/d/1A_XEMI4qroM0buKIktPE-ty4sh3hl4Go/view?usp=sharing" target="_blank">🏕성수기리조트 당첨자 추첨프로그램(lotto.gs)</a></li>  
+          <li><a class="dropdown-item" href="https://ajou9770.github.io/notice/ETC/send_sms.html" target="_blank">💬조합원 문자 안내 서비스</a></li> 
+          <li><a class="dropdown-item" href="https://www.appsheet.com/newshortcut/c86375ea-a23c-4411-8e2d-a71b644e5136" target="_blank">🎫조합원 쿠폰사용내역확인(APP)</a></li>
+          <li><a class="dropdown-item" href="https://www.appsheet.com/start/353267ae-25d3-473c-8d6e-a38c35f14a6f" target="_blank" onclick="alert('🤷‍♂️이 앱을 사용하실 조합은 연락 주세요.')">✈조합원테마여행신청접수APP</a></li>
+        </ul>
+      </div>
+      <br>
+        <div class="space_around">
+        <span style="font-weight: 600;"><a href="https://chat.openai.com/chat" target="_blank">🤖Chat GPT→</a></span> 
+        <!-- <span onclick="document.getElementById('paysend').style.display='block'">💸kakaopay</span>  -->
+        <span style="font-weight: 600;"><a href="https://bitly.com" target="_blank">Bitly→</a></span>
+        <span style="font-weight: 600;"><a href="https://www.appsheet.com/newshortcut/0a4ed563-a35d-4486-96d6-2a0fb22d3d46" target="_blank">Appsheet→</a></span>
+        <span onclick="document.getElementById('qrcode').style.display='block'"><i class="fa-sharp fa-solid fa-qrcode fa-lg"></i></span>
+        <br><br>
+       </div>
+       <div class="center">
+       <img id="qrcode" src="img/qrcode.jpg" style="display:none;" onclick="document.getElementById('qrcode').style.display ='none';" title="📢이미지를 터치 하면 숨겨집니다"> 
+       </div>
+       <div class="center">
+        <img id="paysend" src="img/paysend.png" style="display:none;" onclick="document.getElementById('paysend').style.display ='none';" title="📢이미지를 터치 하면 숨겨집니다"> 
+        </div>
+       
+       <samll id="memobtn" class="btn-secondary btn-sm">Googleapp</samll>
+       <small onclick="copyText()">Copy</small>
+             <div id="memo">
+         <textarea id="Text"> 
+          function doGet() {
+            var template = HtmlService.createTemplateFromFile('index');
+            var htmlOutput = template.evaluate();
+            htmlOutput.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+            return htmlOutput;
+         }</textarea></div>
+      <hr>
+      <h6><strong>🤷‍♂️궁금한 사항이 있으시면 아래로 문의 주세요 </strong></h6>
+      <br>
+      <div class="space_around">
+      <button type="button" class="btn btn-light btn-sm" onclick="callon()" >📞전화문의 </button>
+       <button type="button" class="btn btn-light btn-sm" onclick="location.href='mailto:ajou9770@ajoucu.page'">📨Email문의</button>
+       </div>
+      </div>
+      <!-- Modal HTML -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <h4>🤷‍♀️알려 드립니다</h4>
+      <p>이 문서는 농소형조합 순회교육 자료로 배포 되었습니다. 
+        <br>그외 목적으로 이용을 삼가 주세요</p>
+      <p></p>
+      <button class="btn btn-light btn-sm" onclick="hideModalFor('day')">✔하루동안 안보기</button>
+      <br>
+<!--       <button class="btn btn-light btn-sm" onclick="hideModalFor('week')">일주일 안보기</button>
+      <br> -->
+      <small class="modal-close" onclick="hideModal()">❌닫기</small>
+    </div>
+  </div>
+
+  <script>
+    // Check if modal should be displayed
+    function showModal() {
+      var lastModalTime = localStorage.getItem('lastModalTime');
+      if (!lastModalTime || shouldShowModal(lastModalTime)) {
+        document.getElementById('myModal').style.display = "block";
+      }
+    }
+
+    // Hide modal and set the hiding time
+    function hideModalFor(duration) {
+      var now = new Date().getTime();
+      var timeToHide;
+
+      if (duration === 'day') {
+        timeToHide = now + 24 * 60 * 60 * 1000; // Add 24 hours in milliseconds
+      } else if (duration === 'week') {
+        timeToHide = now + 7 * 24 * 60 * 60 * 1000; // Add 7 days in milliseconds
+      }
+
+      localStorage.setItem('lastModalTime', timeToHide);
+      hideModal();
+    }
+
+    // Check if modal should be shown based on the hiding time
+    function shouldShowModal(lastModalTime) {
+      var currentTime = new Date().getTime();
+      return currentTime > parseInt(lastModalTime);
+    }
+
+    // Hide the modal
+    function hideModal() {
+      document.getElementById('myModal').style.display = "none";
+    }
+
+    // Show the modal when the page loads
+    window.onload = showModal;
+  </script>
+      
+      <script>
+        function copyText() {
+          let textarea = document.getElementById("Text");
+          textarea.select();
+          document.execCommand("copy");
+        }
+        </script>
+           <!-- 이미지 확대.축소 이벤트-->
+      <script> 
+        function zoomImg(img) {
+          if(img.classList.contains('zoomimg')) {
+            img.classList.remove('zoomimg');
+          } else {
+            img.classList.add('zoomimg');
+          }
+        }
+        function zoomImg_se(img) {
+          if(img.classList.contains('zoomimg_se')) {
+            img.classList.remove('zoomimg_se');
+          } else {
+            img.classList.add('zoomimg_se');
+          }
+        }
+          function zoomImg_sm(img) {
+          if(img.classList.contains('zoomimg_sm')) {
+            img.classList.remove('zoomimg_sm');
+          } else {
+            img.classList.add('zoomimg_sm');
+          }
+        }
+      </script>
+
+         
+        <script src="https://kit.fontawesome.com/a66ded67ea.js" crossorigin="anonymous"></script>
+
+    <script>
+        function callon() {
+            if(window.confirm("통화가능시간은 평일 8:30~17:00까지입니다. \n전화앱으로 김설호 상무에게 전화 연결 할까요?")){
+            document.location.href="tel:031-219-6438"} 
+            else {
+                console.log("cancel")
+            }
+        }
+    </script>
+    
+</body>
+</html>
