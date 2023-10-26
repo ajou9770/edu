@@ -44,6 +44,40 @@
     justify-content: space-around;
     margin-top: 20px;
 }
+<!-- mark {
+    background-color: transparent;  /* 배경색을 투명하게 설정 */
+    color: inherit;                 /* 텍스트 색상을 기본값으로 유지 */
+    text-decoration: none;         /* 기본 밑줄 제거 */
+    position: relative;            /* 그림자를 위한 상대 위치 설정 */
+}
+
+mark::after {
+    content: "";                   /* 가상 요소 생성 */
+    position: absolute;            /* 절대 위치 설정 */
+    left: 0;                       /* 왼쪽 정렬 */
+    right: 0;                      /* 오른쪽 정렬 */
+    bottom: 0;                     /* 텍스트 바로 아래에 위치 */
+    height: 2px;                   /* 밑줄 두께 설정 */
+    background: #FFB6C1;          /* 밑줄 색상 설정 (파스텔 핑크) */
+    box-shadow: 
+        2px 2px 0px #FFB6C1,     /* 그림자를 사용하여 불규칙한 모양 생성 */
+        -2px -2px 0px #FFB6C1;
+    border-radius: 1px;           /* 밑줄의 모서리를 둥글게 */
+} -->
+mark {
+    background-color: rgba(255, 182, 193, 0.3); /* 파스텔 핑크의 투명한 배경색 */
+    color: inherit;                             /* 텍스트 색상을 기본값으로 유지 */
+    text-decoration: none;                      /* 기본 밑줄 제거 */
+    padding: 0.2em 0.4em;                       /* 텍스트 주위에 약간의 패딩 추가 */
+    border-radius: 0.5em;                       /* 라운드된 모서리 */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    transition: all 0.3s ease;                  /* 부드러운 전환 효과 */
+}
+
+mark:hover {
+    background-color: rgba(255, 182, 193, 0.5); /* 호버 시 배경색 강조 */
+}
+
 </style>
 </head>
 <body>
@@ -62,7 +96,7 @@
                     <li> MZ세대 등 차세대 조합원 관리에 용이</li>
                     <li> 카카오톡 등 무료 플랫폼 이용에 따른 높은 운영 가성비</li>
                     <li> 조합원과의 소통창구로서의 기능 수행 </li>
-                    <li> 중앙회에서 제공하는 온라인디지털 채널과의 연계(리온브런치, 라이프온 등)</li>
+                    <li><mark>중앙회에서 제공하는 온라인디지털 채널과의 연계(리온브런치, 라이프온 등)</mark></li>
                     <li> 비대면 온라인 창구의 역할 수행 가능(확대)</li>
                     <li> 온라인 SNS등 디지털환경에서 조합의 효과적인 홍보 가능</li>
                     <!-- ... (원하는 만큼 리스트 항목 추가) ... -->
@@ -122,7 +156,7 @@
     <br><br>
     <!-- <small onclick="appDo()">🚀업무용APP(활용 사례)</a></small>
     <br><br> -->
-    <mark><a href="http://www.cu.co.kr/GSSP010000.do?cu_ingno=03239&busi_ty=610&disclosure_no=15380&disclosure_ty=2" target="_blank" style="font-weight: 600; font-family: sans-serif;">📑아주대의료원신협 현황(2023년 상반기 경영공시자료 참조)</a></mark> 
+    <a href="http://www.cu.co.kr/GSSP010000.do?cu_ingno=03239&busi_ty=610&disclosure_no=15380&disclosure_ty=2" target="_blank" style="font-weight: 600; font-family: sans-serif;">📑아주대의료원신협 현황(2023년 상반기 경영공시자료 참조)</a> 
 </div>
 </div>
 </div>
