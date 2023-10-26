@@ -5,10 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-      href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <title>🛠모바일쿠폰 바코드생성기</title>
     <style>
         body {
@@ -119,48 +116,27 @@
     </style>
 </head>
 <body>
-  <h4>✨모바일쿠폰 바코드 생성기</h4>
-   <iframe src="https://script.google.com/macros/s/AKfycbwSdgCC-N05dep5UR-0hSN_4mzEAmPKQCuJA9fswT13440KPROZN8olC2XqXkBlDLIe/exec" width="100%" height="300" frameborder="0" marginheight="0" marginwidth="0">로드 중…</iframe>
-   <!--<a href="https://docs.google.com/spreadsheets/d/1JMPRVw-hIARNFGgUXzbj4Nx7x4nJGarUoQiqaoR84UM/edit#gid=0" target="_blank" onclick="alert('📢신청내역을 확인하실수 있습니다')">🔎가입신청내역 보기→</a>
-   -->
- <!--   <button id="open" class="btn btn-primary" onclick="opendocu()" style="margin-left: 10px;">📄개인정보제공.활용내용 보기↓ </button> -->
-  
+  <h3>✨모바일쿠폰 바코드 생성기</h3>
   <br>
-  <div id="docu">
-   <p>
-    <b>개인정보 수집 및 이용에 대한 동의</b><br><br>
-    
-    [신협중앙회, 아주대의료원신협]은(는) 아래와 같이 귀하의 개인정보를 수집하고 사용하고자 합니다.<br>
-    아래의 내용을 주의 깊게 읽고 동의 여부를 결정해 주시기 바랍니다.<br><br>
-    
-    1. 수집하는 개인정보<br>
-    우리는 다음과 같은 개인정보를 수집하고 있습니다:<br>
-    - 이름<br>
-    - 연락처<br>
-    - 이메일 주소<br>
-    - 소속조합<br><br>
-    
-    2. 개인정보의 수집 및 이용 목적<br><br>
-    
-    귀하의 개인정보는 다음과 같은 목적으로 사용됩니다:<br>
-    - 디지털채널 활용 및 기능 구현을 위한 샘플메세지(알림톡)발송<br>
-    - 쿠폰 발송 등 교육관련 정보 제공 및 안내<br>
+   <!-- <iframe src="https://script.google.com/macros/s/AKfycbwSdgCC-N05dep5UR-0hSN_4mzEAmPKQCuJA9fswT13440KPROZN8olC2XqXkBlDLIe/exec" width="100%" height="300" frameborder="0" marginheight="0" marginwidth="0">로드 중…</iframe>
+ -->
+ <div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <label for="barcodeInput">🔢쿠폰 번호를 입력후 바코드를 생성 하세요</label>
+            <input type="number" class="form-control" id="barcodeInput" placeholder="쿠폰번호입력">
+            <button class="btn btn-primary mt-2" onclick="generate()">🛠바코드 생성</button>
+        </div>
+    </div>
     <br>
-    3. 개인정보의 보유 및 이용 기간<br>
-    워크숍 기간내로 한정하되 일정기간 질의 등에 따라 활용될 수 있음.<br><br>
-    
-    4. 개인정보 수집 및 이용에 대한 동의 철회<br>
-    귀하는 개인정보의 수집 및 이용에 대한 동의를 언제든지 철회할 수 있습니다.
-    </p></div>
-    <div class="center">
-    <button id="close" class="btn btn-danger" onclick="closedocu()">✔확인 하였습니다(닫기) </button>
-    <small id="cancel" style="margin-top: 15px; margin-left:10px;" onclick="alert('📧이메일로 개인정보제공(활용)동의 철회요청을 진행합니다')"><a href="mailto:ajou9770@ajoucu.page?subject=개인정보제공(활용)동의철회 요청드립니다.&body=✔여기에 요청자 연락처를 기재하여 전송해 주세요 %0D%0A성명: %0D%0A연락처:">📧개인정보제공등철회요청→</a></small>  
-  </div>
-  <br>
-  <!-- <a href="https://docs.google.com/spreadsheets/d/1buSYJ_KA3msWr5MYYP0BKucYEE4h4ryF-x2V1BjFlDo/edit?usp=sharing">🔎제출내역보기→</span></a> -->
-    <!-- <button onclick="location.reload()" style="background-color: antiquewhite;">↩다시작성하기</button>
-  <br> --><br><br>
-  <div class="space_around">
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <canvas id="barcodeCanvas" width="200" height="250"></canvas>
+        </div>
+    </div>
+</div>
+<br>
+ <div class="space_around">
   <div onclick="callon()" id="icon_call">
     📞상담(문의)
     </div>
@@ -182,6 +158,33 @@ data-support-multiple-densities="true"
     <br><small>✨평생어부바 신협</small>
   </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <script>
+    function generate() {
+        const inputValue = document.getElementById('barcodeInput').value;
+        if (!inputValue) {
+            alert('🔢쿠폰 번호를 입력해주세요.');
+            return;
+        }
+
+        const canvas = document.getElementById('barcodeCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const qr = new QRious({
+            element: canvas,
+            value: inputValue,
+            size: 150
+        });
+
+        setTimeout(() => {
+            ctx.font = "16px Arial";
+            ctx.fillText(inputValue, 10, 170);
+        }, 500);
+        alert("🤷‍♀️아래 출력된 바코드를 2초간 누르시면 복사 또는 저장하실 수 있습니다.")
+    }
+  </script>
+
 <script>
 // 페이지 로딩이 완료되면 로딩 스피너를 숨깁니다.
 window.addEventListener('load', function() {
@@ -218,21 +221,6 @@ window.addEventListener('load', function() {
         js.src = 'https://developers.kakao.com/sdk/js/kakao.channel.min.js';
         fjs.parentNode.insertBefore(js, fjs);
       })(document, 'script', 'kakao-js-sdk');
-    </script>
-    <script>
-      function opendocu() {
-        document.getElementById("open").style.display='none';
-        document.getElementById("close").style.display='block';
-        document.getElementById("docu").style.display='block';
-        document.getElementById("cancel").style.display='block';
-        window.scrollTo(0, document.body.scrollHeight);   
-      }
-      function closedocu() {
-        document.getElementById("open").style.display='block';
-        document.getElementById("close").style.display='none';
-        document.getElementById("docu").style.display='none';
-        document.getElementById("cancel").style.display='none';
-      }
     </script>
 </body>
 </html>
