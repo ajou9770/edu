@@ -17,6 +17,33 @@
     a {
         text-decoration: none;
     }
+    /* 모달 스타일 */
+/* 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 10px;
+    width: 95%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
 </style>
 </head>
 <body>
@@ -93,10 +120,54 @@
     </div>
     <a href="http://ajou9770.github.io/edu/ytb.html" class="btn btn-secondary btn-sm" target="_blank" style="margin-right:20px; font-weight:600;"><i class="fab fa-youtube"></i>동영상 강의자료</a>
     <br><br>
+    <!-- <small onclick="appDo()">🚀업무용APP(활용 사례)</a></small>
+    <br><br> -->
     <mark><a href="http://www.cu.co.kr/GSSP010000.do?cu_ingno=03239&busi_ty=610&disclosure_no=15380&disclosure_ty=2" target="_blank" style="font-weight: 600; font-family: sans-serif;">📑아주대의료원신협 현황(2023년 상반기 경영공시자료 참조)</a></mark> 
 </div>
 </div>
 </div>
+<!-- 모달 구조 -->
+<!-- 모달 구조 -->
+<div id="passwordModal" class="modal">
+    <div class="modal-content">
+        <h4>🔢비밀번호 입력</h4>
+        <input type="password" id="passwordInput" placeholder="비밀번호를 입력하세요">
+        <div class="button-group">
+            <button class="btn btn-primary btn-sm" onclick="checkPasswordAndRedirect()">✔확인</button>
+            <button class="btn btn-danger btn-sm" onclick="closeModal()">❌취소</button>
+        </div>
+    </div>
+</div>
+<script>
+    function appDo() {
+        // 모달을 표시
+        document.getElementById('passwordModal').style.display = 'block';
+    }
+    
+    function checkPasswordAndRedirect() {
+        var password = document.getElementById('passwordInput').value;
+        var hardcodedPassword = '2130';  // 웹 페이지 내에 직접 저장된 비밀번호
+    
+        if (password === hardcodedPassword) {
+            // 비밀번호가 일치하면 모달을 숨기고 페이지를 새 탭에서 엽니다.
+            closeModal();
+            window.open("https://ajou9770.github.io/notice/ETC/appsheet.html", "_blank");
+        } else {
+            alert("⚠죄송합니다. 직원의 개인정보노출우려로 접속을 제한합니다");
+        }
+    }
+    
+    function closeModal() {
+        // 모달을 숨김
+        document.getElementById('passwordModal').style.display = 'none';
+    }
+    
+    // 오른쪽 마우스 버튼 사용 금지
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert("⛔오른쪽 마우스 버튼 사용이 제한 됩니다");
+    });
+ </script>
 <!-- 문의 버튼들 
 <div class="fixed-bottom mb-3 d-flex justify-content-center">
     <div class="btn-group" role="group">
