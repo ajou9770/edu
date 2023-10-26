@@ -118,9 +118,9 @@
 <body>
   <h3>✨모바일쿠폰 바코드 생성기</h3>
   <br>
-  <iframe src="https://script.google.com/macros/s/AKfycbwSdgCC-N05dep5UR-0hSN_4mzEAmPKQCuJA9fswT13440KPROZN8olC2XqXkBlDLIe/exec" width="100%" height="300" frameborder="0" marginheight="0" marginwidth="0">로드 중…</iframe>
- 
-<!--  <div class="container mt-5">
+  <!-- <iframe src="https://script.google.com/macros/s/AKfycbwSdgCC-N05dep5UR-0hSN_4mzEAmPKQCuJA9fswT13440KPROZN8olC2XqXkBlDLIe/exec" width="100%" height="300" frameborder="0" marginheight="0" marginwidth="0">로드 중…</iframe>
+  -->
+<div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
             <label for="barcodeInput">🔢쿠폰 번호를 입력후 바코드를 생성 하세요</label>
@@ -131,10 +131,11 @@
     <br>
     <div class="row mt-3">
         <div class="col-md-12">
-            <canvas id="barcodeCanvas" width="200" height="250"></canvas>
+            <canvas id="barcodeCanvas" style="display:none;"></canvas>
+            <img id="barcodeImage" style="display:none;">
         </div>
     </div>
-</div> -->
+</div>
 <br>
  <div class="space_around">
   <div onclick="callon()" id="icon_call">
@@ -161,30 +162,34 @@ data-support-multiple-densities="true"
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
   <script>
     function generate() {
-        const inputValue = document.getElementById('barcodeInput').value;
-        if (!inputValue) {
-            alert('🔢쿠폰 번호를 입력해주세요.');
-            return;
-        }
-
-        const canvas = document.getElementById('barcodeCanvas');
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const qr = new QRious({
-            element: canvas,
-            value: inputValue,
-            size: 150
-        });
-
-        setTimeout(() => {
-            ctx.font = "16px Arial";
-            ctx.fillText(inputValue, 10, 170);
-        }, 500);
-        alert("🤷‍♀️아래 출력된 바코드를 2초간 누르시면 복사 또는 저장하실 수 있습니다.")
+    const inputValue = document.getElementById('barcodeInput').value;
+    if (!inputValue) {
+        alert('번호를 입력해주세요.');
+        return;
     }
-  </script>
 
+    const canvas = document.getElementById('barcodeCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const qr = new QRious({
+        element: canvas,
+        value: inputValue,
+        size: 150
+    });
+
+    setTimeout(() => {
+        ctx.font = "16px Arial";
+        ctx.fillText(inputValue, 10, 170);
+
+        // Canvas의 내용을 이미지 태그로 변환
+        const imgElement = document.getElementById('barcodeImage');
+        imgElement.src = canvas.toDataURL();
+        imgElement.style.display = 'block';
+    }, 500);
+    alert("🤷‍♀️출력된 바코드를 2초이상 누르면 복사 또는 저장하실 수 있습니다");
+}
+  </script>
 <script>
 // 페이지 로딩이 완료되면 로딩 스피너를 숨깁니다.
 window.addEventListener('load', function() {
