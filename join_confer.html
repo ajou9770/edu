@@ -45,7 +45,7 @@
     <div style="text-align: center;">
     <iframe src="https://script.google.com/macros/s/AKfycbzN6z7XHt_yojB9E3OGXinPj9dloMZyOQK1yX-FYon6lHlPuQvc2N4U6uGxXqXHy1AJ2g/exec" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0">로드 중…</iframe>
     <hr>
-    <button class="btn btn-info" onclick="location.href='http://ajou9770.github.io/edu/privacy.html'">📝개인정보수집.이용동의 신청하기</button>
+    <button class="btn btn-info" onclick="confirmAndRedirect()">📝개인정보수집.이용동의 신청하기</button>
     <hr>
     <div class="contact-buttons">
         <a href="tel:0312196438" class="btn btn-primary" style="margin-right: 10px;">
@@ -60,6 +60,16 @@
         <div id="loading-message"><span style="padding-left: 15px;">컨퍼런스 신청 로딩중..</span>
           <br><small>✨평생어부바 신협</small>
         </div>
+
+     <script>
+        function confirmAndRedirect() {
+            var userResponse = confirm("🤷‍♂️이름이 출력되고 컨퍼런스신청이 완료된 분은 개인정보동의 안하셔도 됩니다.(순회교육시 개인정보동의서를 제출 안하신분 만 해당됨)  \n 개인정보 수집.이용 동의신청을 하시겠습니까?");
+            if (userResponse) {
+                window.location.href = 'http://ajou9770.github.io/edu/privacy.html';
+            }
+        }
+        </script>
+          
       <script>
         // 페이지 로딩이 완료되면 로딩 스피너를 숨깁니다.
         window.addEventListener('load', function() {
