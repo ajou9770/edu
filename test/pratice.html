@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
     body {
+        width: 100%;
+        max-width: 600px;
         font-family: Arial, sans-serif;
         margin: 10px;
     }
@@ -43,7 +45,7 @@
 </style>
 </head>
 <body>
-    <h1>개인정보수집 및 활용동의</h1>
+    <h4>개인정보수집 및 활용동의</h4>
     <form id="consentForm">
         <div class="form-group">
             <label for="name">이름:</label>
@@ -63,7 +65,7 @@
         </div>
         <div class="signature-container">
             <label for="signature">서명:</label>
-            <canvas id="signature-canvas" class="signature-canvas" width="400" height="150"></canvas>
+            <canvas id="signature-canvas" class="signature-canvas" width="350" height="150"></canvas>
         </div>
         <button type="button" class="btn btn-primary" id="submitBtn">제출</button>
     </form>
