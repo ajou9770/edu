@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Calendar</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+        }
+        
+        #calendar-container {
+            width: 350px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            position: absolute;
+            right: 20px;
+            max-width: 300px;
+            bottom: 200px;
+        }
+        
+        #calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .day-header {
+            display: inline-block;
+            width: 12%;
+            font-size: smaller;
+            padding: 10px 0;
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+        
+        #calendar .day-header:nth-child(1) {
+            color: red;
+        }
+        
+        #calendar .day-header:nth-child(7) {
+            color: blue;
+        }
+        
+        #calendar-body {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .day {
+            width: 14.28%;
+            padding: 10px 0;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }        
+        #calendar .day:nth-child(7n+1) {
+            color: red;
+        }
+        
+        #calendar .day:nth-child(7n) {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="calendar-container">
+        <div id="calendar-header">
+            <button id="prev-month">◀</button>
+            <span id="month-year"></span>
+            <button id="next-month">▶</button>
+        </div>
+        <div id="calendar">
+            <div class="day-header">Sun</div>
+            <div class="day-header">Mon</div>
+            <div class="day-header">Tue</div>
+            <div class="day-header">Wed</div>
+            <div class="day-header">Thu</div>
+            <div class="day-header">Fri</div>
+            <div class="day-header">Sat</div>
+            <div id="calendar-body"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarBody = document.getElementById('calendar-body');
+            const monthYear = document.getElementById('month-year');
+            const prevMonth = document.getElementById('prev-month');
+            const nextMonth = document.getElementById('next-month');
+        
+            let currentMonth = new Date().getMonth();
+            let currentYear = new Date().getFullYear();
+        
+            const months = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+        
+            function renderCalendar(month, year) {
+                calendarBody.innerHTML = '';
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+        
+                for (let i = 0; i < firstDay; i++) {
+                    const emptyCell = document.createElement('div');
+                    emptyCell.classList.add('day');
+                    calendarBody.appendChild(emptyCell);
+                }
+        
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayCell = document.createElement('div');
+                    dayCell.classList.add('day');
+                    dayCell.textContent = day;
+                    calendarBody.appendChild(dayCell);
+                }
+        
+                monthYear.textContent = `${months[month]} ${year}`;
+            }
+        
+            prevMonth.addEventListener('click', () => {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+        
+            nextMonth.addEventListener('click', () => {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+        
+            renderCalendar(currentMonth, currentYear);
+        });       
+    </script>
+</body>
+</html>
