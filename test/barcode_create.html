@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Barcode Generator</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 500px;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+    }
+    .barcode {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container text-center">
+    <h1 class="mb-4">Barcode Generator</h1>
+    <div class="form-group">
+      <input type="text" id="employeeId" class="form-control" placeholder="Enter Employee ID">
+    </div>
+    <button class="btn btn-primary btn-block" onclick="generateBarcode()">Generate Barcode</button>
+    <div id="barcodeContainer" class="barcode"></div>
+  </div>
+
+  <script>
+    function generateBarcode() {
+      const employeeId = document.getElementById('employeeId').value;
+      if (employeeId) {
+        const barcodeUrl = `https://quickchart.io/qr?text=${employeeId}&size=150`;
+        const barcodeContainer = document.getElementById('barcodeContainer');
+        barcodeContainer.innerHTML = `<img src="${barcodeUrl}" class="img-fluid" alt="Barcode for ${employeeId}">`;
+      } else {
+        alert('Please enter a valid Employee ID.');
+      }
+    }
+  </script>
+</body>
+</html>
