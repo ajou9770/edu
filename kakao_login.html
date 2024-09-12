@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카카오 로그인 예제</title>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+        // Kakao SDK 초기화
+        Kakao.init('3deed533d7742055058fd45e706a9804'); // 'YOUR_APP_KEY'를 카카오 개발자 콘솔에서 발급받은 JavaScript 키로 변경하세요.
+
+        function loginWithKakao() {
+            Kakao.Auth.login({
+                success: function(authObj) {
+                    console.log('로그인 성공:', authObj);
+                    Kakao.API.request({
+                        url: '/v2/user/me',
+                        success: function(response) {
+                            console.log('사용자 정보:', response);
+                            
+                            // 사용자 정보에서 핸드폰 번호 가져오기
+                            const phoneNumber = response.kakao_account.phone_number || "정보 없음";
+                            
+                            // 폼에 핸드폰 번호 자동 입력
+                            document.getElementById('phone_input').value = phoneNumber;
+                            document.getElementById('user_info').textContent = `안녕하세요, ${response.properties.nickname}님!`;
+                        },
+                        fail: function(error) {
+                            console.error('사용자 정보 요청 실패:', error);
+                        }
+                    });
+                },
+                fail: function(err) {
+                    console.error('로그인 실패:', err);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>카카오 로그인 예제</h1>
+
+    <!-- 카카오 로그인 버튼 -->
+    <button onclick="loginWithKakao()">카카오 로그인</button>
+
+    <!-- 사용자 정보를 표시할 영역 -->
+    <div id="user_info" style="margin-top: 20px; font-size: 18px; font-weight: bold;"></div>
+
+    <!-- 핸드폰 번호를 입력받는 폼 -->
+    <form style="margin-top: 20px;">
+        <label for="phone_input">핸드폰 번호:</label>
+        <input type="text" id="phone_input" placeholder="핸드폰 번호가 여기에 표시됩니다." readonly>
+    </form>
+</body>
+</html>
