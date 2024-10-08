@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>📝동탄3동 주민센타 1층로비 후문개방을 위한 주민서명</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+</head>
+<body>
+  <div class="container mt-5">
+    <h4 class="mb-4">📝동탄3동 주민센타 1층로비 후문개방을 위한 주민서명</h4>
+    <form id="consentForm" method="post">
+      <div class="form-group">
+        <!-- <label for="name">성명</label> -->
+        <input type="text" class="form-control" placeholder="주소를 입력하세요" value="화성시 동탄숲속로 103, " id="name" name="name" required>
+      </div>
+      <div class="form-group">
+       <!--  <label for="contact">연락처</label> -->
+        <input type="text" class="form-control" id="contact" placeholder="성명을 입력하세요" name="contact" required>
+      </div>
+<!--       <div class="form-group">
+      <label for="email">이메일 (옵션)</label>
+        <input type="email" class="form-control" placeholder="📨이메일입력(선택)" id="email" name="email">
+      </div> -->
+      <div class="form-group">
+        <h5>📌 서명을 위한 개인정보(성명,주소)수집,활용에 동의 합니다.</h5>
+        <label for="signature">📝서명</label>
+        <canvas id="signaturePad" class="border" width="300" height="180" style="background-color: #f0f0f0; border: 1px solid #ccc;"></canvas>
+        <button type="button" class="btn btn-secondary mt-2" onclick="clearSignature()">↩️</button>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" id="submitBtn">✔️제출 하기</button>
+    </form>
+  </div>
+
+  <script>
+    // Signature Pad 초기화
+    const canvas = document.getElementById('signaturePad');
+    const signaturePad = new SignaturePad(canvas);
+    const submitBtn = document.getElementById('submitBtn');
+    const consentForm = document.getElementById('consentForm');
+
+    function clearSignature() {
+      signaturePad.clear();
+    }
+
+    consentForm.addEventListener('submit', function(event) {
+        alert ('샘플자료입니다. 실제로 활용시 구글시트에 저장됩니다');
+      event.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const contact = document.getElementById('contact').value;
+      const email = document.getElementById('email').value || '제공되지 않음';
+      
+      // 폼 제출 전 입력 내용을 확인하는 메시지
+      const confirmationMessage = `
+        입력한 내용을 확인해 주세요:\n
+        성명: ${name}
+        연락처: ${contact}
+        이메일: ${email}\n
+        이대로 제출하시겠습니까?
+      `;
+
+      if (!confirm(confirmationMessage)) {
+        return;
+      }
+
+      if (signaturePad.isEmpty()) {
+        alert('📝서명을 입력해 주세요.');
+        return;
+      }
+      
+      // 제출 버튼을 비활성화하고 로딩 중 텍스트 표시
+      submitBtn.disabled = true;
+      submitBtn.textContent = "🔂 제출중...잠시만 기다려 주세요";
+
+      const formData = new FormData(event.target);
+      const signatureData = signaturePad.toDataURL('image/png'); // 서명을 PNG 이미지로 저장
+      formData.append('signature', signatureData);
+
+      fetch('https://script.google.com/macros/s/AKfycbzotnHn8cTwxOuBvMi-kc00tiodbBNhgDiDBHkGzbWKbQ5TqFBRxvEmQFaa7QJgGAwK/exec', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+        // 1초 후 폼 초기화
+        setTimeout(() => {
+          consentForm.reset();
+          signaturePad.clear();
+          submitBtn.disabled = false;
+          submitBtn.textContent = "✔️제출하기";
+        }, 1000);
+      })
+      .catch(error => {
+        alert('⚠️제출중 오류가 발생했습니다. 다시한번 시도해 주세요.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = "✔️제출하기";
+      });
+    });
+  </script>
+</body>
+</html>
