@@ -41,7 +41,7 @@
         .then(response => response.json())
         .then(data => {
           if (data.totalParticipants) {
-            participantCount.textContent = `✨현재 총 참가 인원:  ${data.totalParticipants}명`; // 참가 인원 업데이트
+            participantCount.textContent = `✨현재 총 참가 인원 :  ${data.totalParticipants}명`; // 참가 인원 업데이트
           }
         })
         .catch(error => {
@@ -85,7 +85,7 @@
       .then(data => {
         alert(data.message);
         if (data.totalParticipants) {
-          participantCount.textContent = `✨현재 총 서명참가 인원:  ${data.totalParticipants} 명`; // 참가 인원 업데이트
+          participantCount.textContent = `✨현재 총 서명참가 인원 :  ${data.totalParticipants} 명`; // 참가 인원 업데이트
         }
         setTimeout(() => {
           consentForm.reset();
@@ -101,63 +101,5 @@
       });
     });
   </script>
-    <!-- <script>
-    const canvas = document.getElementById('signaturePad');
-    const signaturePad = new SignaturePad(canvas);
-    const submitBtn = document.getElementById('submitBtn');
-    const consentForm = document.getElementById('consentForm');
-
-    function clearSignature() {
-      signaturePad.clear();
-    }
-
-    consentForm.addEventListener('submit', function(event) {
-      event.preventDefault();
-
-        // 주소 및 성명 입력 필드 값 가져오기
-        const name = document.getElementById('name').value;
-        const contact = document.getElementById('contact').value;
-    
-
-      if (signaturePad.isEmpty()) {
-        alert('📝서명을 입력해 주세요.');
-        return;
-      }
-
-          // 입력 내용을 확인하는 메시지
-    const confirmationMessage = `입력한 내용을 확인해 주세요:\n\n주소: ${name}\n성명: ${contact}\n\n이대로 제출하시겠습니까?`;
-
-    if (!confirm(confirmationMessage)) {
-      return;  // 사용자가 확인을 취소하면 제출을 중단
-    }
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = "🔂 제출중...잠시만 기다려 주세요";
-
-      const formData = new FormData(event.target);
-      const signatureData = signaturePad.toDataURL('image/png');
-      formData.append('signature', signatureData);
-
-      fetch('https://script.google.com/macros/s/AKfycbwjY39ZjDc__yR3kAvn57QoyeTAVSqeUXSTLNAVihLt6udpSETmNbqSJ1pehQKa5FZT/exec', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        alert(data.message);
-        setTimeout(() => {
-          consentForm.reset();
-          signaturePad.clear();
-          submitBtn.disabled = false;
-          submitBtn.textContent = "✔️제출하기";
-        }, 1000);
-      })
-      .catch(error => {
-        alert('⚠️제출중 오류가 발생했습니다. 다시한번 시도해 주세요.');
-        submitBtn.disabled = false;
-        submitBtn.textContent = "✔️제출하기";
-      });
-    });
-  </script> -->
 </body>
 </html>
