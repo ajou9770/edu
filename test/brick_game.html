@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>벽돌깨기 게임by seolho pro</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flexbox;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        canvas {
+            border: 3px solid white;
+        }
+    </style>
+</head>
+<body>
+    <h4>✨벽돌깨기 게임 by created seol pro</h4>
+    <br>
+    <canvas id="gameCanvas"></canvas>
+    <script>
+        // JavaScript version of the brick breaker game using HTML5 Canvas
+
+        // 초기 설정
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const WIDTH = 800;
+        const HEIGHT = 600;
+        canvas.width = WIDTH;
+        canvas.height = HEIGHT;
+
+        // 색상 정의
+        const COLORS = ['red', 'green', 'blue', 'yellow', 'orange', 'purple'];
+
+        // 패들 설정
+        const PADDLE_WIDTH = 100;
+        const PADDLE_HEIGHT = 10;
+        let paddleX = (WIDTH - PADDLE_WIDTH) / 2;
+        const paddleSpeed = 6;
+
+        // 공 설정
+        const BALL_RADIUS = 10;
+        let ballX = WIDTH / 2;
+        let ballY = HEIGHT / 2;
+        let ballSpeedX = 4;
+        let ballSpeedY = -4;
+
+        // 벽돌 설정
+        const BRICK_ROWS = 5;
+        const BRICK_COLUMNS = 10;
+        const BRICK_SPACING = 5;
+        const BRICK_WIDTH = (WIDTH - (BRICK_COLUMNS + 1) * BRICK_SPACING) / BRICK_COLUMNS;
+        const BRICK_HEIGHT = 30;
+        let bricks = [];
+
+        // 음향 효과 설정
+        const brickSound = new Audio('brick_hit.wav');
+        const paddleSound = new Audio('paddle_hit.wav');
+        const winSound = new Audio('win_sound.wav');
+        const gameOverSound = new Audio('game_over.wav');
+
+        // 벽돌 생성 함수
+        function createBricks() {
+          bricks = [];
+          const brickColor = COLORS[Math.floor(Math.random() * COLORS.length)];
+          for (let row = 0; row < BRICK_ROWS; row++) {
+            for (let col = 0; col < BRICK_COLUMNS; col++) {
+              const brickX = col * (BRICK_WIDTH + BRICK_SPACING) + BRICK_SPACING / 2;
+              const brickY = row * (BRICK_HEIGHT + BRICK_SPACING) + BRICK_SPACING / 2;
+              bricks.push({ x: brickX, y: brickY, color: brickColor, destroyed: false });
+            }
+          }
+          console.log(`Bricks created with color: ${brickColor}`);
+        }
+        createBricks();
+
+        // 키 입력 설정
+        let leftPressed = false;
+        let rightPressed = false;
+        let paused = false;
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') leftPressed = true;
+          if (e.key === 'ArrowRight') rightPressed = true;
+          if (e.key === 'ArrowUp') paused = true; // 상단 화살표로 게임 일시 정지
+          if (e.key === 'ArrowDown') paused = false; // 하단 화살표로 게임 재개
+        });
+
+        document.addEventListener('keyup', (e) => {
+          if (e.key === 'ArrowLeft') leftPressed = false;
+          if (e.key === 'ArrowRight') rightPressed = false;
+        });
+
+        // 게임 루프
+        function gameLoop() {
+          if (paused) {
+            requestAnimationFrame(gameLoop);
+            return;
+          }
+
+          // 화면 그리기
+          ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+          // 패들 그리기
+          ctx.fillStyle = 'blue';
+          ctx.fillRect(paddleX, HEIGHT - 50, PADDLE_WIDTH, PADDLE_HEIGHT);
+
+          // 공 그리기
+          ctx.beginPath();
+          ctx.arc(ballX, ballY, BALL_RADIUS, 0, Math.PI * 2);
+          ctx.fillStyle = 'white';
+          ctx.fill();
+          ctx.closePath();
+
+          // 벽돌 그리기
+          bricks.forEach((brick) => {
+            if (!brick.destroyed) {
+              ctx.fillStyle = brick.color;
+              ctx.fillRect(brick.x, brick.y, BRICK_WIDTH, BRICK_HEIGHT);
+            }
+          });
+
+          // 패들 이동
+          if (leftPressed && paddleX > 0) {
+            paddleX -= paddleSpeed;
+            console.log(`Paddle moved left to position: ${paddleX}`);
+          }
+          if (rightPressed && paddleX < WIDTH - PADDLE_WIDTH) {
+            paddleX += paddleSpeed;
+            console.log(`Paddle moved right to position: ${paddleX}`);
+          }
+
+          // 공 이동
+          ballX += ballSpeedX;
+          ballY += ballSpeedY;
+          console.log(`Ball position updated to: (${ballX}, ${ballY})`);
+
+          // 공의 벽 충돌
+          if (ballX - BALL_RADIUS <= 0 || ballX + BALL_RADIUS >= WIDTH) {
+            ballSpeedX = -ballSpeedX;
+            console.log(`Ball hit side wall. New speed: (${ballSpeedX}, ${ballSpeedY})`);
+          }
+          if (ballY - BALL_RADIUS <= 0) {
+            ballSpeedY = -ballSpeedY;
+            console.log(`Ball hit top wall. New speed: (${ballSpeedX}, ${ballSpeedY})`);
+          }
+          if (ballY + BALL_RADIUS >= HEIGHT) {
+            // 게임 오버 조건
+            gameOverSound.play();
+            console.log('Game over. Ball hit bottom wall.');
+            alert('🤖아쉽네요, 다시 도전해 보세요');
+            createBricks();
+            ballX = WIDTH / 2;
+            ballY = HEIGHT / 2;
+            ballSpeedX = 4;
+            ballSpeedY = -4;
+            paddleX = (WIDTH - PADDLE_WIDTH) / 2;
+            paused = false;
+            requestAnimationFrame(gameLoop);
+            return;
+          }
+
+          // 공과 패들의 충돌
+          if (
+            ballY + BALL_RADIUS >= HEIGHT - 50 &&
+            ballX >= paddleX &&
+            ballX <= paddleX + PADDLE_WIDTH
+          ) {
+            ballSpeedY = -ballSpeedY;
+            paddleSound.play();
+            console.log(`Ball hit paddle. New speed: (${ballSpeedX}, ${ballSpeedY})`);
+          }
+
+          // 공과 벽돌의 충돌
+          bricks.forEach((brick) => {
+            if (!brick.destroyed) {
+              if (
+                ballX >= brick.x &&
+                ballX <= brick.x + BRICK_WIDTH &&
+                ballY - BALL_RADIUS <= brick.y + BRICK_HEIGHT &&
+                ballY + BALL_RADIUS >= brick.y
+              ) {
+                ballSpeedY = -ballSpeedY;
+                brick.destroyed = true;
+                brickSound.play();
+                console.log(`Ball hit brick at position: (${brick.x}, ${brick.y}). Brick removed.`);
+              }
+            }
+          });
+
+          // 모든 벽돌이 깨졌을 때
+          if (bricks.every((brick) => brick.destroyed)) {
+            console.log('All bricks cleared. Displaying win message.');
+            winSound.play();
+            alert('축하합니다. 성공했습니다!');
+            createBricks();
+            ballX = WIDTH / 2;
+            ballY = HEIGHT / 2;
+            ballSpeedX = 4;
+            ballSpeedY = -4;
+            paddleX = (WIDTH - PADDLE_WIDTH) / 2;
+            paused = false;
+          }
+
+          requestAnimationFrame(gameLoop);
+        }
+
+        // 게임 시작
+        requestAnimationFrame(gameLoop);
+    </script>
+</body>
+</html>
