@@ -7,9 +7,11 @@ from pygame.locals import *
 pygame.init()
 
 # 음향 효과 로드
-brick_sound = pygame.mixer.Sound('brick_hit.wav')  # 벽돌에 공이 맞을 때 재생될 소리
-paddle_sound = pygame.mixer.Sound('paddle_hit.wav')  # 패들에 공이 맞을 때 재생될 소리
-win_sound = pygame.mixer.Sound('win_sound.wav')  # 모든 벽돌을 깼을 때 재생될 소리
+brick_sound = pygame.mixer.Sound('sound/brick_hit.wav')  # 벽돌에 공이 맞을 때 재생될 소리
+paddle_sound = pygame.mixer.Sound('sound/paddle_hit.wav')  # 패들에 공이 맞을 때 재생될 소리
+win_sound = pygame.mixer.Sound('sound/win_sound.wav')  # 모든 벽돌을 깼을 때 재생될 소리
+
+font = pygame.font.SysFont('malgungothic', 55)  # '맑은 고딕'을 선택하여 한글을 표시합니다.
 
 # 색상 정의
 WHITE = (255, 255, 255)
@@ -48,7 +50,7 @@ def create_bricks():
     print("Bricks created with color: {}".format(brick_color))  # 벽돌 생성 로그
     return bricks
 
-BRICK_ROWS = 5  # 벽돌의 행 개수
+BRICK_ROWS = 4  # 벽돌의 행 개수
 BRICK_COLUMNS = 10  # 벽돌의 열 개수
 BRICK_SPACING = 5  # 벽돌 사이의 간격
 BRICK_WIDTH = (WIDTH - (BRICK_COLUMNS + 1) * BRICK_SPACING) // BRICK_COLUMNS  # 벽돌의 너비 계산
@@ -57,6 +59,8 @@ bricks = create_bricks()  # 초기 벽돌 생성
 
 # 게임 루프
 clock = pygame.time.Clock()  # 게임 속도 조절을 위한 Clock 객체 생성
+paused = False  # 일시 정지 상태 여부
+
 while True:
     # 이벤트 처리
     for event in pygame.event.get():
@@ -64,6 +68,22 @@ while True:
             print("Game quit event detected.")  # 게임 종료 이벤트 로그
             pygame.quit()
             sys.exit()
+        elif event.type == KEYDOWN:
+            if event.key == K_UP:  # 방향키 '상' 입력 시 일시 정지
+                paused = True
+                print("Game paused.")  # 게임 일시 정지 로그
+                text = font.render("Paused!!", True, WHITE)  # 일시정지
+                screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))  # 화면 중앙에 메시지 출력
+                pygame.display.flip()  # 화면 업데이트
+            elif event.key == K_DOWN:  # 방향키 '하' 입력 시 다시 재생
+                paused = False
+                print("Game resumed.")  # 게임 재개 로그
+                text = font.render("Restart", True, WHITE)  # 다시재생
+                screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))  # 화면 중앙에 메시지 출력
+                pygame.display.flip()  # 화면 업데이트
+                
+    if paused:
+        continue
 
     # 패들 움직임
     keys = pygame.key.get_pressed()  # 키 입력 상태를 가져옴
@@ -106,7 +126,7 @@ while True:
     if not bricks:  # 벽돌 리스트가 비어 있으면 (모든 벽돌이 깨졌을 때)
         win_sound.play()  # 승리 소리 재생
         font = pygame.font.SysFont(None, 55)  # 폰트 설정
-        text = font.render("축하합니다. 성공했습니다!", True, WHITE)  # 축하 메시지 렌더링
+        text = font.render("Nice. Finished!", True, WHITE)  # 축하 메시지 렌더링
         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))  # 화면 중앙에 메시지 출력
         pygame.display.flip()  # 화면 업데이트
         print("All bricks cleared. Displaying win message.")  # 모든 벽돌 제거 로그
