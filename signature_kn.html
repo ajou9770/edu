@@ -6,6 +6,23 @@
   <title>📝동탄3동 주민센타 1층로비 후문개방을 위한 주민서명</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+  <style>
+    .completion-container {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f8f9fa;
+    }
+    .completion-card {
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    #finished {
+      display: none;
+    }
+</style>
 </head>
 <body>
   <div class="container mt-5">
@@ -29,6 +46,30 @@
     <br>
     <p id="participantCount" class="text-muted">✨현재 총 참가 인원 :  🔄집계중...</p> <!-- 총 참가 인원 표시 영역 -->
   </div>
+  <div id="finished" class="completion-container">
+    <div class="card completion-card text-center">
+        <div class="card-body">
+            <h3 class="card-title text-success">동탄3동 주민센타 후문개방 요청 주민서명이 마감 되었습니다!</h3>
+            <p class="card-text">🎉참여해 주셔서 감사 합니다.</p>
+            <a href="https://open.kakao.com/o/g7uOqsCg" class="btn btn-primary mt-3">💬우리아파트 소통방 참여하기</a>
+        </div>
+    </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const targetDate = new Date('2024-10-24T18:00:00');
+      const now = new Date();
+      if (now >= targetDate) {
+          document.getElementById('finished').style.display = 'flex';
+          const otherForms = document.querySelectorAll('body > *:not(#finished)');
+          otherForms.forEach(element => {
+              if (element.id !== 'finished') {
+                  element.style.display = 'none';
+              }
+          });
+      }
+  });
+</script>
   <script>
     const canvas = document.getElementById('signaturePad');
     const signaturePad = new SignaturePad(canvas);
