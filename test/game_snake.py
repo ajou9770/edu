@@ -1,9 +1,19 @@
+import os
 import pygame
 import time
 import random
-import os
+
+# 사용할 오디오 드라이버 설정 ('winmm', 'directsound', 'dummy' 등)
+os.environ['SDL_AUDIODRIVER'] = 'winmm'  # 또는 'dummy'로 변경하여 오디오 비활성화
 
 pygame.init()
+
+# 소리 초기화
+try:
+    pygame.mixer.init()
+except pygame.error as e:
+    print(f"오디오 초기화에 실패했습니다: {e}")
+    pygame.mixer = None  # mixer 사용 불가 상태로 설정
 
 # 화면 설정 (확대된 화면 크기)
 width, height = 800, 600
@@ -24,7 +34,7 @@ snake_speed = 12
 
 clock = pygame.time.Clock()
 
-# 한글 폰트 설정 (크기 조정: font_style=25, pause_font=40, score_font=25)
+# 한글 폰트 설정 (크기 조정: font_style=25, pause_font=25, score_font=25)
 try:
     font_style = pygame.font.SysFont('Malgun Gothic', 25)
     pause_font = pygame.font.SysFont('Malgun Gothic', 25)
@@ -44,24 +54,24 @@ def Your_score(score):
 
 def load_image(name, size):
     try:
-        image = pygame.image.load(name)
+        image = pygame.image.load(os.path.join("images", name))  # 'images' 폴더 내에서 로드
         image = pygame.transform.scale(image, size)
         return image
     except pygame.error:
         print(f"이미지를 로드할 수 없습니다: {name}")
         return None
 
-# 소리 초기화
-pygame.mixer.init()
-
 # 소리 파일 로드 (sound 폴더 내)
 def load_sound(name):
-    path = os.path.join("sound", name)
-    try:
-        sound = pygame.mixer.Sound(path)
-        return sound
-    except pygame.error:
-        print(f"소리 파일을 로드할 수 없습니다: {path}")
+    if pygame.mixer:
+        path = os.path.join("sound", name)
+        try:
+            sound = pygame.mixer.Sound(path)
+            return sound
+        except pygame.error:
+            print(f"소리 파일을 로드할 수 없습니다: {path}")
+            return None
+    else:
         return None
 
 eat_sound = load_sound('eat.wav')
@@ -71,13 +81,14 @@ resume_sound = load_sound('resume.wav')
 
 # 배경 음악 로드 및 재생 (선택 사항)
 def load_music(name):
-    path = os.path.join("sound", name)
-    try:
-        pygame.mixer.music.load(path)
-        pygame.mixer.music.set_volume(1.0)  # 볼륨 조절 (0.0 ~ 1.0)
-        pygame.mixer.music.play(-1)  # 무한 반복 재생
-    except pygame.error:
-        print(f"배경 음악을 로드할 수 없습니다: {path}")
+    if pygame.mixer:
+        path = os.path.join("sound", name)
+        try:
+            pygame.mixer.music.load(path)
+            pygame.mixer.music.set_volume(1.0)  # 볼륨 조절 (0.0 ~ 1.0)
+            pygame.mixer.music.play(-1)  # 무한 반복 재생
+        except pygame.error:
+            print(f"배경 음악을 로드할 수 없습니다: {path}")
 
 load_music('background_music.mp3')  # 배경 음악 파일명
 
@@ -137,7 +148,22 @@ def gameLoop():
                         game_over = True
                         game_close = False
                     if event.key == pygame.K_c:
-                        gameLoop()
+                        # 게임을 재시작하기 전에 모든 변수 초기화
+                        game_over_sound_played = False
+                        x1 = width / 2
+                        y1 = height / 2
+                        x1_change = 0
+                        y1_change = 0
+                        snake_List = []
+                        Length_of_snake = 1
+                        score = 0
+                        foodx = round(random.randrange(0, width - snake_block) / snake_block) * snake_block
+                        foody = round(random.randrange(0, height - snake_block) / snake_block) * snake_block
+                        effect_index = 0
+                        current_effect_image = None
+                        effect_position = (0, 0)
+                        effect_start_time = 0
+                        game_close = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -181,7 +207,22 @@ def gameLoop():
                                     if resume_sound:
                                         resume_sound.play()
                                 elif pause_event.key == pygame.K_r:
-                                    gameLoop()
+                                    # 게임을 재시작하기 전에 모든 변수 초기화
+                                    game_over_sound_played = False
+                                    x1 = width / 2
+                                    y1 = height / 2
+                                    x1_change = 0
+                                    y1_change = 0
+                                    snake_List = []
+                                    Length_of_snake = 1
+                                    score = 0
+                                    foodx = round(random.randrange(0, width - snake_block) / snake_block) * snake_block
+                                    foody = round(random.randrange(0, height - snake_block) / snake_block) * snake_block
+                                    effect_index = 0
+                                    current_effect_image = None
+                                    effect_position = (0, 0)
+                                    effect_start_time = 0
+                                    paused = False
                                 elif pause_event.key == pygame.K_q:
                                     pygame.quit()
                                     quit()
@@ -260,7 +301,8 @@ def gameLoop():
         clock.tick(snake_speed)
 
     # 게임 종료 시 배경 음악 중지
-    pygame.mixer.music.stop()
+    if pygame.mixer and pygame.mixer.music:
+        pygame.mixer.music.stop()
     pygame.quit()
     quit()
 
