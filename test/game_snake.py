@@ -20,7 +20,7 @@ blue = (0, 0, 255)         # 일시정지 메시지 색상
 
 # 뱀 설정
 snake_block = 20  # 크기 조정
-snake_speed = 15
+snake_speed = 12
 
 clock = pygame.time.Clock()
 
