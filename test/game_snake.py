@@ -74,7 +74,7 @@ def load_music(name):
     path = os.path.join("sound", name)
     try:
         pygame.mixer.music.load(path)
-        pygame.mixer.music.set_volume(0.5)  # 볼륨 조절 (0.0 ~ 1.0)
+        pygame.mixer.music.set_volume(1.0)  # 볼륨 조절 (0.0 ~ 1.0)
         pygame.mixer.music.play(-1)  # 무한 반복 재생
     except pygame.error:
         print(f"배경 음악을 로드할 수 없습니다: {path}")
@@ -82,8 +82,8 @@ def load_music(name):
 load_music('background_music.mp3')  # 배경 음악 파일명
 
 # 이미지 로드
-heart_image = load_image('heart.png', (32, 32))
-star_image = load_image('star.png', (32, 32))
+heart_image = load_image('heart.png', (30, 30))
+star_image = load_image('star.png', (30, 30))
 effect_images = [heart_image, star_image]
 current_effect_image = None
 effect_position = (0, 0)
