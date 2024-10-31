@@ -4,16 +4,55 @@ import time
 import random
 
 # 사용할 오디오 드라이버 설정 ('winmm', 'directsound', 'dummy' 등)
-os.environ['SDL_AUDIODRIVER'] = 'winmm'  # 또는 'dummy'로 변경하여 오디오 비활성화
+os.environ['SDL_AUDIODRIVER'] = 'winmm'  # 또는 'dummy'
 
 pygame.init()
 
-# 소리 초기화
-try:
-    pygame.mixer.init()
-except pygame.error as e:
-    print(f"오디오 초기화에 실패했습니다: {e}")
+import os
+import pygame
+import time
+import random
+
+# 사용할 오디오 드라이버 설정 ('winmm', 'directsound', 'dummy' 등)
+# 기본적으로 'winmm'을 사용하고, 필요시 다른 드라이버로 변경할 수 있습니다.
+os.environ['SDL_AUDIODRIVER'] = 'winmm'  # 또는 'directsound', 'dummy'
+
+pygame.init()
+
+def initialize_mixer():
+    """
+    Pygame mixer를 다양한 설정으로 초기화하여 최적의 오디오 설정을 찾습니다.
+    성공적으로 초기화되면 True를 반환하고, 실패하면 False를 반환합니다.
+    """
+    # 시도할 설정 목록 (frequency, size, channels, buffer)
+    settings = [
+        (44100, -16, 2, 1024),
+        (44100, -16, 2, 2048),
+        (22050, -16, 2, 1024),
+        (22050, -16, 1, 1024),
+        (48000, -16, 2, 1024),
+        (44100, -16, 2, 4096),
+        (22050, -16, 2, 4096),
+    ]
+    
+    for freq, size, ch, buf in settings:
+        try:
+            pygame.mixer.quit()  # 기존 mixer 설정 초기화
+            pygame.mixer.init(frequency=freq, size=size, channels=ch, buffer=buf)
+            print(f"오디오 초기화 성공: frequency={freq}, size={size}, channels={ch}, buffer={buf}")
+            return True
+        except pygame.error as e:
+            print(f"오디오 초기화 실패: frequency={freq}, size={size}, channels={ch}, buffer={buf}")
+            print(f"오류 메시지: {e}")
+            continue
+    print("모든 오디오 초기화 시도가 실패했습니다.")
+    return False
+
+# 오디오 초기화 시도
+if not initialize_mixer():
+    print("오디오 초기화에 실패했습니다. 소리 없이 게임을 실행합니다.")
     pygame.mixer = None  # mixer 사용 불가 상태로 설정
+
 
 # 화면 설정 (확대된 화면 크기)
 width, height = 800, 600
@@ -47,6 +86,7 @@ except:
 def message(msg, color, font, position):
     mesg = font.render(msg, True, color)
     win.blit(mesg, position)
+
 
 def Your_score(score):
     value = score_font.render("점수: " + str(score), True, white)
