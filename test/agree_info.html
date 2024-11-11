@@ -29,7 +29,7 @@
 <body>
 <div class="container mt-5">
     <h3>📝개인정보 수집 및 활용(제3자 제공 포함) 동의서</h3>
-    <button class="btn btn-primary mb-3" id="openConsentButton" data-toggle="modal" data-target="#consentModal">📌개인정보수집.활용 동의서 내용 보기</button>
+    <button class="btn btn-primary mb-3" id="openConsentButton" data-toggle="modal" data-target="#consentModal">📌개인정보수집.활용 동의서 보기 및 동의 하기</button>
 
     <!-- 동의서 모달 -->
     <div class="modal fade" id="consentModal" tabindex="-1" role="dialog" aria-labelledby="consentModalLabel" aria-hidden="true">
@@ -137,7 +137,7 @@
             submitButton.textContent = "✔️제출하기";
             return;
         }
-
+        alert('⚠️제출중입니다. 잠시만 기다려 주세요');
         // Google Apps Script 웹앱으로 데이터 전송
         fetch("https://script.google.com/macros/s/AKfycbwiihHiS2gDkKibPxAs2qxKBMQX5Tz7klbaEwlZSsRj0LfzowL92Cmog8zR31e73hG5qA/exec", {
             method: "POST",
@@ -154,7 +154,7 @@
         })
         .then(() => {
             // no-cors 모드에서는 응답 확인이 불가능하므로 성공적으로 전달되었다고 가정
-            alert("제출이 완료되었습니다.");
+            alert("✨감사합니다. 제출이 완료 되었습니다.");
             document.getElementById("consentForm").reset();
             document.getElementById("agreementCheck").disabled = true;
             submitButton.disabled = false;
