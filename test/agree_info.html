@@ -68,10 +68,11 @@
     // 동의서 내용을 스크롤할 때 끝까지 읽으면 확인 버튼이 활성화되도록 처리
     document.getElementById("consentTextContainer").addEventListener("touchmove", handleScroll);
     document.getElementById("consentTextContainer").addEventListener("scroll", handleScroll);
+    document.getElementById("consentTextContainer").addEventListener("touchend", handleScroll);
 
     function handleScroll() {
         const container = document.getElementById("consentTextContainer");
-        if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
+        if (container.scrollTop + container.clientHeight >= container.scrollHeight - 5) { // 여유 공간을 두어 마지막 부분을 쉽게 감지하도록 함
             document.getElementById("confirmButton").style.display = "block";
             document.getElementById("confirmButton").disabled = false;
         }
