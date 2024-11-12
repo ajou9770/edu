@@ -154,7 +154,7 @@
             submitButton.textContent = "제출하기";
             return;
         }
-
+        alert('⚠️제출중입니다. 잠시만 기다려 주세요');
         // Google Apps Script 웹앱으로 데이터 전송
         fetch("https://script.google.com/macros/s/AKfycbwiihHiS2gDkKibPxAs2qxKBMQX5Tz7klbaEwlZSsRj0LfzowL92Cmog8zR31e73hG5qA/exec", {
             method: "POST",
@@ -170,13 +170,16 @@
             mode: "no-cors" // CORS 문제 해결을 위한 no-cors 모드 설정
         })
         .then(() => {
-            // no-cors 모드에서는 응답 확인이 불가능하므로 성공적으로 전달되었다고 가정
-            alert("제출이 완료되었습니다.");
-            document.getElementById("consentForm").reset();
-            document.getElementById("agreementCheck").disabled = true;
-            submitButton.disabled = false;
-            submitButton.textContent = "제출하기";
-        })
+    // no-cors 모드에서는 응답 확인이 불가능하므로 성공적으로 전달되었다고 가정
+    alert("제출이 완료되었습니다.");
+    document.getElementById("consentForm").reset();
+    document.getElementById("agreementCheck").checked = false; // 체크박스 체크해제
+    document.getElementById("agreementCheck").disabled = true;
+    confirmButton.disabled = true;
+    submitButton.disabled = false;
+    submitButton.textContent = "제출하기";
+})
+
         .catch(error => {
             // 오류 발생 시 오류 메시지 표시
             alert("오류가 발생했습니다. 다시 시도해 주세요. 오류 내용: " + error.message);
