@@ -175,10 +175,9 @@
     document.getElementById("consentForm").reset();
     document.getElementById("agreementCheck").checked = false; // 체크박스 체크해제
     document.getElementById("agreementCheck").disabled = true;
-    confirmButton.disabled = true;
     submitButton.disabled = false;
     submitButton.textContent = "제출하기";
-})
+   })
 
         .catch(error => {
             // 오류 발생 시 오류 메시지 표시
