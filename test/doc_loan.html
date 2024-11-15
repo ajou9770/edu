@@ -63,7 +63,7 @@
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="confirmButton" disabled>🔳 상기 내용을 확인하고 온라인 서류제출을 요청합니다.</button>
+                    <button type="button" class="btn btn-success" id="confirmButton" disabled>🔳상기 내용을 확인하였으며 온라인 서류제출을 요청합니다.</button>
                 </div>
             </div>
         </div>
@@ -174,7 +174,7 @@
         })
         .then(() => {
     // no-cors 모드에서는 응답 확인이 불가능하므로 성공적으로 전달되었다고 가정
-    alert("제출이 완료되었습니다.");
+    alert("🚀온라인신청이 완료되었습니다. 신협중앙회에서 알림톡으로 안내 예정입니다.");
     document.getElementById("consentForm").reset();
     document.getElementById("agreementCheck").checked = false; // 체크박스 체크해제
     document.getElementById("agreementCheck").disabled = true;
