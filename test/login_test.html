@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Accessible Login Form</title>
+    <style>
+        label:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        button:focus-visible, a:focus-visible, input:focus-visible {
+            outline: 5px solid oklch(60% 0.15 252);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control" autocomplete="username" required aria-invalid="true" aria-errormessage="email-error">
+                        <div id="email-error" class="text-danger">Enter a valid email address</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" class="form-control" autocomplete="current-password" required>
+                    </div>
+                    <div class="form-group form-check">
+                        <label>
+                            <input type="checkbox" class="form-check-input" required> I agree with the privacy policy
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.autocomplete = 'off';
+            setTimeout(() => {
+                submitButton.disabled = false;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
+
