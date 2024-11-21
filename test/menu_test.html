@@ -11,7 +11,7 @@
     <div class="container mt-5">
       <h5>📌온라인 비대면 실명인증,개인정보동의 및 서류 접속관련 업무열랴 테스트</h5>
       <br>
-      <p>🤷🏽‍♀️ 아래 제출자를 선택 후 시작하기로 시작하세요 10분(600초)내 제출요망</p>
+      <span>🤷🏽‍♀️ 아래 제출자를 선택 후 시작하기로 시작하세요 10분(600초)내 제출요망</span>
       <hr>
       <select id="name" class="form-control mt-3" required>
         <option value="">✔️제출자(직원) 선택</option>
@@ -22,7 +22,7 @@
         <option value="테스트">테스트</option>
       </select>
       <br>
-      <button type="button" id="startBtn" class="btn btn-info btn-sm" onclick="alert('⏰10분[600초]의 시간이 주어집니다. 답안을 모두 체크 후 제출하세요')">⏰시작 하기</button>
+      <button type="button" id="startBtn" class="btn btn-info btn-sm">⏰시작 하기</button>
       <hr>
       <form id="quizForm" style="display:none;">
         <div id="quiz"></div>
@@ -34,11 +34,20 @@
 
     <script>
       document.getElementById('startBtn').addEventListener('click', function() {
-        document.getElementById('quizForm').style.display = 'block';
-        document.getElementById('timer').style.display = 'block';
-        document.getElementById('submitButton').disabled = false;
-        startTimer(600);
-      });
+  const nameSelect = document.getElementById('name');
+  if (nameSelect.value === '') {
+    alert('⚠️먼저 상단의 제출자(직원)을 선택해주세요.');
+    return;
+  }
+
+  if (confirm('⏰10분[600초]의 시간이 주어집니다. 주어진 시간내 모든 답안을 체크 후 제출하세요. 시작하시겠습니까?')) {
+    document.getElementById('quizForm').style.display = 'block';
+    document.getElementById('timer').style.display = 'block';
+    document.getElementById('submitButton').disabled = false;
+    startTimer(600);
+  }
+});
+
 
       const questions = [
         { question: "장표수집서류제출요청화면에서 제공하지 않는 업무는?", options: ["출자금핵심설명", "개인(신용)정보수집이용제공동의", "미성년자예금계좌개설동의", "비대면실명인증"], answer: "비대면실명인증" },
@@ -60,57 +69,60 @@
         return array;
       }
 
-      function submitForm() {
-        const name = document.getElementById('name').value;
-        const submitButton = document.getElementById('submitButton');
+function submitForm() {
+  const name = document.getElementById('name').value;
+  const submitButton = document.getElementById('submitButton');
 
-        if (!document.getElementById('quizForm').checkValidity() || name === '') {
-          alert('⚠️ 답안 또는 제출자정보가 누락되었습니다. 확인해 주세요');
-          return false;
-        }
+  if (!document.getElementById('quizForm').checkValidity() || name === '') {
+    alert('⚠️ 한개 이상의 답안이 누락 되었습니다. 확인후 체크해 주세요');
+    return false;
+  }
 
-        const correctAnswers = checkAnswers();
-        alert(`✔️${questions.length}문제중  ${correctAnswers}개의 정답이 제출 됩니다. \n 처음 제출한 답안만 유효합니다. 잠시만 기다려 주세요..`);
+  if (confirm('답안을 제출하시겠습니까? 처음 제출한 답안만 유효합니다.')) {
+    const correctAnswers = checkAnswers();
+    alert(`✔️${questions.length}문제중  ${correctAnswers}개의 정답이 제출 됩니다. \n 잠시만 기다려 주세요..`);
 
-        // 제출 버튼을 로딩 상태로 변경하고 비활성화
-        submitButton.disabled = true;
-        submitButton.innerText = '🔄제출중....';
+    // 제출 버튼을 로딩 상태로 변경하고 비활성화
+    submitButton.disabled = true;
+    submitButton.innerText = '🔄제출중....';
 
-        // 전체 답변이 상당하면 서버로 데이터를 전송
-        let formData = {
-          name: name,
-        };
+    // 전체 답변이 상당하면 서버로 데이터를 전송
+    let formData = {
+      name: name,
+    };
 
-        questions.forEach((item, index) => {
-          formData[`question${index}`] = document.querySelector(`input[name="question${index}"]:checked`).value;
-        });
+    questions.forEach((item, index) => {
+      formData[`question${index}`] = document.querySelector(`input[name="question${index}"]:checked`).value;
+    });
 
-        fetch("https://script.google.com/macros/s/AKfycby8qLKuQ2lyGMGR15fTixbz1gM587LN_AH7fuZ4Ni-wJaMlF_51QGIGadiRDIJTJnz3iA/exec", {
-          method: 'POST',
-          mode:"no-cors",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        })
-        .then(response => response.text())
-        .then(data => {
-          alert('🎉답안 제출이 완료 됩니다. 수고하셨습니다.');
-          submitButton.disabled = false;
-          submitButton.innerText = '📝제출 하기';
-          document.getElementById('timer').style.display = 'none';
-          document.getElementById('quizForm').style.display = 'none';
-          document.getElementById('submitButton').disabled = true;
-          setTimeout(function() {
-            document.getElementById('quizForm').reset();
-          }, 2000);
-        })
-        .catch(error => {
-          alert('제출 중 오류가 발생했습니다. 다시 시도해 주세요.');
-          submitButton.disabled = false;
-          submitButton.innerText = '✔️제출 하기';
-        });
-      }
+    fetch("https://script.google.com/macros/s/AKfycby8qLKuQ2lyGMGR15fTixbz1gM587LN_AH7fuZ4Ni-wJaMlF_51QGIGadiRDIJTJnz3iA/exec", {
+      method: 'POST',
+      mode:"no-cors",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.text())
+    .then(data => {
+      alert('🎉답안 제출이 완료 됩니다. 수고하셨습니다.');
+      submitButton.disabled = false;
+      submitButton.innerText = '📝제출 하기';
+      document.getElementById('timer').style.display = 'none';
+      document.getElementById('quizForm').style.display = 'none';
+      document.getElementById('submitButton').disabled = true;
+      setTimeout(function() {
+        document.getElementById('quizForm').reset();
+      }, 2000);
+    })
+    .catch(error => {
+      alert('제출 중 오류가 발생했습니다. 다시 시도해 주세요.');
+      submitButton.disabled = false;
+      submitButton.innerText = '✔️제출 하기';
+    });
+  }
+}
+
 
       function checkAnswers() {
         let correctCount = 0;
