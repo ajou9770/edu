@@ -20,14 +20,14 @@
         <option value="테스트">테스트</option>
       </select>
       <br>
-      <button type="button" id="startBtn" class="btn btn-info btn-sm">⏰시작 하기</button>
-      <br>
+      <button type="button" id="startBtn" class="btn btn-info btn-sm" onclick="alert('⏰10분[600초]의 시간이 주어집니다. 답안을 모두 체크 후 제출하세요')">⏰시작 하기</button>
+      <hr>
       <form id="quizForm" style="display:none;">
         <div id="quiz"></div>
         <br>
         <button type="button" id="submitButton" class="btn btn-primary btn-block" onclick="submitForm()" disabled>📝제출 하기</button>
       </form>
-      <div id="timer" style="position: fixed; bottom: 10px; right: 10px; font-size: 18px; color: red;"></div>
+      <div id="timer" style="position: fixed; bottom: 40px; right: 10px; font-size: 18px; background-color: bisque; color: red;"></div>
     </div>
 
     <script>
@@ -63,12 +63,12 @@
         const submitButton = document.getElementById('submitButton');
 
         if (!document.getElementById('quizForm').checkValidity() || name === '') {
-          alert('⚠️ 답안 또는 제출자정보가 누르였습니다. 확인해 주세요');
+          alert('⚠️ 답안 또는 제출자정보가 누락되었습니다. 확인해 주세요');
           return false;
         }
 
         const correctAnswers = checkAnswers();
-        alert(`✔️${questions.length}문제중  ${correctAnswers}개의 정답이 제출 됩니다. \n \uCC98\uC74C \uC81C\uCD9C\uB41C \uB2F5\uC548\uB9CC \uC778\uC815\uB429\uB2C8다. \uC7A0\uC2DC\uB9CC \uB300\uAE30\uD558\uC138\uC694..`);
+        alert(`✔️${questions.length}문제중  ${correctAnswers}개의 정답이 제출 됩니다. \n 처음 제출한 답안만 유효합니다. 잠시만 기다려 주세요..`);
 
         // 제출 버튼을 로딩 상태로 변경하고 비활성화
         submitButton.disabled = true;
@@ -126,11 +126,11 @@
       function startTimer(duration) {
         let timer = duration;
         const timerDisplay = document.getElementById('timer');
-        timerDisplay.innerHTML = `남은시간: ${timer}초`;
+        timerDisplay.innerHTML = `⏰남은시간: ${timer}초`;
 
         const interval = setInterval(function () {
           timer--;
-          timerDisplay.innerHTML = `남은시간: ${timer}초`;
+          timerDisplay.innerHTML = `⏰남은시간: ${timer}초`;
 
           if (timer <= 0) {
             clearInterval(interval);
@@ -164,7 +164,7 @@
       };
 
       document.addEventListener('contextmenu', function(e) {
-        alert('⚠️우출마우스 사용이 제한됩니다.');
+        alert('⚠️우측 마우스버튼 사용이 제한됩니다.');
         e.preventDefault();
       });
     </script>
