@@ -44,7 +44,7 @@
     document.getElementById('quizForm').style.display = 'block';
     document.getElementById('timer').style.display = 'block';
     document.getElementById('submitButton').disabled = false;
-    startTimer(600);
+    startTimer(600); // 타이머: 10분(600초)
   }
 });
 
@@ -150,6 +150,7 @@ function submitForm() {
             clearInterval(interval);
             document.getElementById('quizForm').style.display = 'none';
             document.getElementById('submitButton').disabled = true;
+            document.getElementById('quizForm').reset();
             alert('⚠️ 시간이 종료되었습니다. 제출이 불가합니다.');
           }
         }, 1000);
