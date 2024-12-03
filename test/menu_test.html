@@ -6,6 +6,29 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <title>🎉온라인비대면 정보 및 서류수집업무역량강화 TEST</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      // 특정 시간 설정
+      const startDateTime = new Date('2024-12-03T09:05:00');   // 시작 시간
+        const endDateTime = new Date('2024-12-05T17:20:00');   // 종료 시간
+
+        function checkTime() {
+            const now = new Date(); // 현재 시간 가져오기
+            const quizForm = document.getElementById('quizForm');
+
+            // 현재 시간이 설정된 시간 범위 내에 있는지 확인
+            if (now >= startDateTime && now <= endDateTime) {
+                quizForm.style.display = "block"; // 폼 표시
+            } else {
+                quizForm.style.display = "none";  // 폼 숨기기
+            }
+        }
+
+        // 페이지 로드 시와 매초마다 시간 확인
+        document.addEventListener('DOMContentLoaded', () => {
+            checkTime();
+            setInterval(checkTime, 1000); // 1초마다 확인
+        });
+      </script>
   </head>
   <body>
     <div class="container mt-5">
@@ -74,7 +97,7 @@ function submitForm() {
   const submitButton = document.getElementById('submitButton');
 
   if (!document.getElementById('quizForm').checkValidity() || name === '') {
-    alert('⚠️ 한개 이상의 답안이 누락 되었습니다. 확인후 체크해 주세요');
+    alert('⚠️ 한개 이상의 답안이 누락 되었거나, 제출자를 선택하지 않았어요');
     return false;
   }
 
