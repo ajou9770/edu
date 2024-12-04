@@ -44,7 +44,7 @@
     return;
   }
 
-  if (confirm('⏰17시 20분까지 10분[600초]의 시간이 주어집니다. 주어진 시간내 모든 답안을 체크 후 제출하세요. 시작하시겠습니까?')) {
+  if (confirm('⏰시작부터 정확히 10분[600초]의 시간이 주어집니다. 주어진 시간내 모든 답안을 체크 후 제출하세요. \n\n시작하시겠습니까?')) {
     document.getElementById('quizForm').style.display = 'block';
     document.getElementById('timer').style.display = 'block';
     document.getElementById('submitButton').disabled = false;
@@ -161,7 +161,7 @@ function checkTime() {
     // 종료 시간이 지나면 종료 메시지 표시 및 폼 숨기기
     if (now >= endDateTime && !endAlertShown) {
         endAlertShown = true; // 종료 메시지가 한 번만 표시되도록 설정
-        alert("⏰시험 시간이 종료되었습니다");
+        alert("⏰테스트 응시 시간이 아닙니다");
         if (quizForm) {
             quizForm.style.display = "none"; // 폼 숨기기
             document.getElementById('submitButton').disabled = true; // 제출 버튼 비활성화
