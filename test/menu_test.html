@@ -182,7 +182,7 @@ function startTimer(duration) {
     // 종료 시간이 지났는지 확인
     const now = new Date();
     if (now >= endDateTime) {
-        alert("⚠️ 시험 시간이 이미 종료되었습니다. 더 이상 답안을 작성할 수 없습니다.");
+        alert("⚠️ 시험 시간이 종료되었거나 응시 기간이 아닙니다. 확인해 주세요");
         document.getElementById('quizForm').style.display = 'none';
         return;
     }
@@ -200,7 +200,7 @@ function startTimer(duration) {
             document.getElementById('quizForm').style.display = 'none';
             document.getElementById('submitButton').disabled = true;
             document.getElementById('quizForm').reset();
-            alert('⚠️ 시간이 종료되었습니다. 제출이 불가합니다.');
+            alert('⚠️ 테스트 지정시간이 안닙니다.. 제출이 불가합니다.');
         }
     }, 1000);
 }
