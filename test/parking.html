@@ -126,7 +126,7 @@ document.getElementById('carNumber').addEventListener('keydown', function(e) {
       tr.innerHTML = `
         <td>${localTime}</td>
         <td>${carNumber}</td>
-        <td><button type="button" class="btn btn-danger btn-sm" onclick="deleteCar('${time}', '${carNumber}', this)">삭제</button></td>
+        <td><button type="button" class="btn btn-secondary btn-sm" onclick="deleteCar('${time}', '${carNumber}', this)">⛔</button></td>
       `;
       carList.append(tr);
     }
