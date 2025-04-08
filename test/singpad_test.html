@@ -252,7 +252,7 @@ function maskContact(contact) {
 
 
 // JSONP 응답을 처리할 전역 함수 (최대 5개 항목만 표시)
-function handleResponse(data) {
+/* function handleResponse(data) {
   const table = document.getElementById("submissionList");
   table.innerHTML = "";
   // 최신 순으로 정렬 후 최대 5개 항목만 선택
@@ -269,7 +269,27 @@ function handleResponse(data) {
     `;
     table.insertAdjacentHTML("beforeend", row);
   });
-}
+} */
+
+window.handleResponse = function(data) {
+  const table = document.getElementById("submissionList");
+  table.innerHTML = "";
+  const dataLimited = data.reverse().slice(0, 5);
+  dataLimited.forEach((item, index) => {
+    const row = `
+      <tr>
+        <td class="text-center">${dataLimited.length - index}</td>
+        <td class="text-center">${maskEmployeeId(item.employeeId)}</td>
+        <td class="text-center">${maskName(item.name)}</td>
+        <td class="text-center">${maskContact(item.contact)}</td>
+        <td class="text-center">${item.email}</td>
+      </tr>
+    `;
+    table.insertAdjacentHTML("beforeend", row);
+  });
+};
+
+
       // JSONP 방식으로 데이터를 불러오는 함수
       function loadSubmissionList() {
         // 중복 요청 방지를 위한 이전 스크립트 제거
