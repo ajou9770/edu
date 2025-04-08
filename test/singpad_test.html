@@ -11,6 +11,11 @@
     />
     <!-- Signature Pad 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
+    <!-- Bootstrap CSS (이미 포함 중이라면 이 부분은 생략) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Bundle with Popper (팝오버 사용을 위해 필요) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <style>
       /* 배경 그라데이션 효과 */
       body {
@@ -48,6 +53,10 @@
       .emoji {
         margin-right: 5px;
       }
+      .popover {
+  max-width: 220px; /* 필요에 따라 조정 */
+  z-index: 1050; /* 다른 요소 위에 표시 */
+}
     </style>
   </head>
   <body class="bg-light">
@@ -97,6 +106,19 @@
                 placeholder="예: example@example.com"
               />
             </div>
+            <!-- 기존 입력폼 항목들 사이에 주소입력폼 추가 (예: 이메일 아래) -->
+<div class="mb-3">
+    <label class="form-label"><span class="emoji">🏠</span>주소</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="address" placeholder="주소 검색 후 자동 입력" readonly required>
+      <button type="button" class="btn btn-secondary" id="btn-address-search">주소 검색</button>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label"><span class="emoji">🔍</span>상세주소</label>
+    <input type="text" class="form-control" id="detailAddress" placeholder="상세주소를 입력하세요" required>
+  </div>
+  
             <div class="mb-3">
               <label class="form-label"><span class="emoji">✍️</span>서명</label>
               <div id="signature-pad">
@@ -130,6 +152,7 @@
             <th class="text-center">성명</th>
             <th class="text-center">연락처</th>
             <th class="text-center">이메일</th>
+            <!-- <th class="text-center">Sign</th> -->
           </tr>
         </thead>
         <tbody id="submissionList"></tbody>
@@ -140,6 +163,20 @@
     </div>
 
     <script>
+// 주소 검색 버튼 클릭 이벤트
+document.getElementById('btn-address-search').addEventListener('click', function() {
+  new daum.Postcode({
+    oncomplete: function(data) {
+      // 도로명 주소와 지번 주소 중 선택 (여기서는 도로명 주소 사용)
+      var addr = (data.userSelectedType === 'R') ? data.roadAddress : data.jibunAddress;
+      document.getElementById('address').value = addr;
+      // 상세주소 입력란에 포커스
+      document.getElementById('detailAddress').focus();
+    }
+  }).open();
+});
+
+
       // SignaturePad 초기화
       const canvas = document.querySelector("canvas");
     const signaturePad = new SignaturePad(canvas);
@@ -161,6 +198,7 @@
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
+    // 폼제출이벤트
     document.getElementById("clear-signature").addEventListener("click", () => {
       signaturePad.clear();
     });
@@ -169,34 +207,32 @@
     document.getElementById("submitForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  if (signaturePad.isEmpty()) {
-    alert("⚠️서명을 해주세요.");
-    return;
-  }
+  // ... (서명, 기타 입력값 처리 코드)
 
   const employeeId = document.getElementById("employeeId").value.trim();
   const name = document.getElementById("name").value.trim();
   let contact = document.getElementById("contact").value.trim();
   const email = document.getElementById("email").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const detailAddress = document.getElementById("detailAddress").value.trim();
   const sign = signaturePad.toDataURL();
 
-  // 연락처에서 숫자만 추출
+  // 연락처 숫자만 추출 후 길이 검증 등 기존 코드...
   const contactDigits = contact.replace(/\D/g, '');
-  // 연락처가 정확히 11자리 숫자인지 확인
   if (contactDigits.length !== 11) {
-    alert("⚠️연락처는 11자리(예:01012345678) 입니다.");
+    alert("연락처는 11자리 숫자(예: 01012345678)만 입력해 주세요.");
     return;
   }
-  // 하이픈이나 다른 문자가 있었다면 정리된 숫자 문자열로 교체
   contact = contactDigits;
 
-  // 사용자에게 입력 내용을 확인시켜주는 메시지
+  // 사용자 확인 메시지에 주소 정보도 포함 (원하는 경우)
   const confirmationMessage = `
 입력하신 내용은 다음과 같습니다:
   - 사번: ${employeeId}
   - 성명: ${name}
   - 연락처: ${contact}
   - 이메일: ${email}
+  - 주소: ${address} ${detailAddress}
 
 제출하시겠습니까?
   `;
@@ -209,14 +245,14 @@
   formData.append("name", name);
   formData.append("contact", contact);
   formData.append("email", email);
+  formData.append("address", address);
+  formData.append("detailAddress", detailAddress);
   formData.append("sign", sign);
 
   fetch(WEBAPP_URL, {
     method: "POST",
     mode: "no-cors",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: formData,
   });
 
@@ -225,6 +261,7 @@
   signaturePad.clear();
   loadSubmissionList();
 });
+
 
 
 // 마스킹 함수들
@@ -250,62 +287,49 @@ function maskContact(contact) {
   return contact.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
 }
 
-
-// JSONP 응답을 처리할 전역 함수 (최대 5개 항목만 표시)
-/* function handleResponse(data) {
-  const table = document.getElementById("submissionList");
-  table.innerHTML = "";
-  // 최신 순으로 정렬 후 최대 5개 항목만 선택
-  const dataLimited = data.reverse().slice(0, 5);
-  dataLimited.forEach((item, index) => {
-    const row = `
-      <tr>
-        <td class="text-center">${dataLimited.length - index}</td>
-        <td class="text-center">${maskEmployeeId(item.employeeId)}</td>
-        <td class="text-center">${maskName(item.name)}</td>
-        <td class="text-center">${maskContact(item.contact)}</td>
-        <td class="text-center">${item.email}</td>
-      </tr>
-    `;
-    table.insertAdjacentHTML("beforeend", row);
-  });
-} */
-
+// 전역 JSONP 콜백 함수 – 받아온 데이터를 처리해 리스트에 표시 (최대 5개 항목)
 window.handleResponse = function(data) {
-  const table = document.getElementById("submissionList");
-  table.innerHTML = "";
-  const dataLimited = data.reverse().slice(0, 5);
-  dataLimited.forEach((item, index) => {
-    const row = `
-      <tr>
-        <td class="text-center">${dataLimited.length - index}</td>
-        <td class="text-center">${maskEmployeeId(item.employeeId)}</td>
-        <td class="text-center">${maskName(item.name)}</td>
-        <td class="text-center">${maskContact(item.contact)}</td>
-        <td class="text-center">${item.email}</td>
-      </tr>
-    `;
-    table.insertAdjacentHTML("beforeend", row);
-  });
-};
+    const table = document.getElementById("submissionList");
+    table.innerHTML = "";
+    // 최신순 정렬 후 최대 5개 항목만 선택
+    const dataLimited = data.reverse().slice(0, 5);
+    dataLimited.forEach((item, index) => {
+      const row = `
+        <tr>
+          <td class="text-center">${dataLimited.length - index}</td>
+          <td class="text-center">${maskEmployeeId(item.employeeId)}</td>
+          <td class="text-center">${maskName(item.name)}</td>
+          <td class="text-center">${maskContact(item.contact)}</td>
+          <td class="text-center">${item.email}</td>
+        </tr>
+      `;
+      table.insertAdjacentHTML("beforeend", row);
+    });
+    
+    // popover 초기화 – JS 옵션을 통해 배치와 컨테이너, 스타일 조정
+    const popoverTriggerList = document.querySelectorAll('.signature-popover');
+    popoverTriggerList.forEach(el => {
+      new bootstrap.Popover(el, {
+        container: "body",   // 컨테이너 옵션 조정 (필요에 따라 수정)
+        placement: "top"     // 버튼 위쪽에 표시
+      });
+    });
+  };
 
+  // JSONP 방식으로 데이터를 불러오는 함수
+  function loadSubmissionList() {
+    const oldScript = document.getElementById("jsonpScript");
+    if (oldScript) {
+      document.body.removeChild(oldScript);
+    }
+    const script = document.createElement("script");
+    script.id = "jsonpScript";
+    script.src = WEBAPP_URL + "?callback=handleResponse";
+    document.body.appendChild(script);
+  }
 
-      // JSONP 방식으로 데이터를 불러오는 함수
-      function loadSubmissionList() {
-        // 중복 요청 방지를 위한 이전 스크립트 제거
-        const oldScript = document.getElementById("jsonpScript");
-        if (oldScript) {
-          document.body.removeChild(oldScript);
-        }
-        // 새 스크립트 태그 생성 (callback 파라미터 포함)
-        const script = document.createElement("script");
-        script.id = "jsonpScript";
-        script.src = WEBAPP_URL + "?callback=handleResponse";
-        document.body.appendChild(script);
-      }
-
-      // 페이지 로드 시 데이터 불러오기
-      document.addEventListener("DOMContentLoaded", loadSubmissionList);
+  // DOMContentLoaded 시 데이터 불러오기
+  document.addEventListener("DOMContentLoaded", loadSubmissionList);
     </script>
   </body>
 </html>
