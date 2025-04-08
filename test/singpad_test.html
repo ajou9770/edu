@@ -1,88 +1,208 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>정보 제출 폼</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
-  <style>
-    body {
-      background-color: #f8f9fa;
-    }
-    .container {
-      max-width: 600px;
-      margin-top: 50px;
-      padding: 30px;
-      background-color: white;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    #signature-pad {
-      border: 1px solid #ced4da;
-      border-radius: 5px;
-    }
-    canvas {
-      width: 100%;
-      height: 200px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h3 class="mb-4 text-center">정보 제출 폼</h3>
-    <form id="submitForm">
-      <div class="mb-3">
-        <label for="employeeId" class="form-label">사번</label>
-        <input type="text" class="form-control" id="employeeId" required>
-      </div>
-      <div class="mb-3">
-        <label for="name" class="form-label">성명</label>
-        <input type="text" class="form-control" id="name" required>
-      </div>
-      <div class="mb-3">
-        <label for="contact" class="form-label">연락처</label>
-        <input type="tel" class="form-control" id="contact" required>
-      </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">이메일</label>
-        <input type="email" class="form-control" id="email">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">서명</label>
-        <div id="signature-pad">
-          <canvas></canvas>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>서명 등록 폼 🖊️</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <!-- Signature Pad 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
+    <style>
+      /* 배경 그라데이션 효과 */
+      body {
+        background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+      }
+      /* 폼 카드 스타일 */
+      .form-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+      }
+      /* 서명 패드 스타일 */
+      #signature-pad {
+        border: 2px dashed #adb5bd;
+        border-radius: 8px;
+        height: 200px;
+        background: #f1f3f5;
+      }
+      canvas {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+      }
+      /* 레이블에 볼드체 */
+      .form-label {
+        font-weight: bold;
+      }
+      /* 헤더 타이틀 */
+      .header-title {
+        font-size: 1.75rem;
+        font-weight: bold;
+      }
+      /* 이모티콘과 텍스트 간 간격 */
+      .emoji {
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <div class="container py-5">
+      <!-- 폼 헤더 -->
+      <h2 class="text-center header-title mb-4">서명 등록 폼 🖊️</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <!-- 입력 폼 -->
+          <form id="submitForm" class="card p-4 form-card">
+            <div class="mb-3">
+              <label class="form-label"><span class="emoji">💼</span>사번</label>
+              <input
+                type="number"
+                class="form-control"
+                id="employeeId"
+                placeholder="예: 12345"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label"><span class="emoji">👤</span>성명</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder="예: 홍길동"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label"><span class="emoji">📞</span>연락처</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="contact"
+                placeholder="예: 01012345678(숫자만)"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label"><span class="emoji">📧</span>이메일</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="예: example@example.com"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label"><span class="emoji">✍️</span>서명</label>
+              <div id="signature-pad">
+                <canvas></canvas>
+              </div>
+              <button
+                type="button"
+                class="btn btn-secondary btn-sm mt-2"
+                id="clear-signature"
+              >
+                🔂서명 지우기
+              </button>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-3">
+              제출하기 🚀
+            </button>
+          </form>
         </div>
-        <button type="button" class="btn btn-secondary btn-sm mt-2" id="clear-signature">서명 지우기</button>
       </div>
-      <button type="submit" class="btn btn-primary w-100">제출</button>
-      <div class="alert mt-3 d-none" id="statusMessage"></div>
-    </form>
+
+      <!-- 응답 리스트 -->
+     <!-- 응답 리스트 영역 -->
+<div class="mt-5">
+    <h4 class="text-center mb-3">🗂 최근 등록된 내역</h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th class="text-center">순번</th>
+            <th class="text-center">사번</th>
+            <th class="text-center">성명</th>
+            <th class="text-center">연락처</th>
+            <th class="text-center">이메일</th>
+          </tr>
+        </thead>
+        <tbody id="submissionList"></tbody>
+      </table>
+    </div>
   </div>
+  
+    </div>
 
-  <script>
-  const canvas = document.querySelector("canvas");
-const signaturePad = new SignaturePad(canvas);
+    <script>
+      // SignaturePad 초기화
+      const canvas = document.querySelector("canvas");
+    const signaturePad = new SignaturePad(canvas);
+    const WEBAPP_URL =
+      "https://script.google.com/macros/s/AKfycbxie_4bHpb6vMeEkWmmD829wD-rBfrClm6mupkb6jPz3hsLlDrXhivfj60dnnYqoCQW/exec";
 
-document.getElementById("clear-signature").addEventListener("click", () => {
-  signaturePad.clear();
-});
+    // 캔버스 크기를 디바이스 픽셀 비율에 맞게 조절하는 함수
+    function resizeCanvas() {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      // 캔버스의 실제 크기를 조절
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      // 캔버스의 그리기 컨텍스트를 스케일링하여 해상도를 보정
+      canvas.getContext("2d").scale(ratio, ratio);
+      // 캔버스 내용 초기화 (resize 시 필요)
+      signaturePad.clear();
+    }
+    // 페이지 로드시와 창 크기 변경 시 캔버스 리사이즈
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
 
-document.getElementById("submitForm").addEventListener("submit", async function (e) {
+    document.getElementById("clear-signature").addEventListener("click", () => {
+      signaturePad.clear();
+    });
+
+    // 폼 제출 이벤트 (POST 요청은 no-cors 모드 사용)
+    document.getElementById("submitForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const statusEl = document.getElementById("statusMessage");
-  statusEl.classList.add("d-none");
-
   if (signaturePad.isEmpty()) {
-    alert("서명을 입력해주세요.");
+    alert("⚠️서명을 해주세요.");
     return;
   }
 
   const employeeId = document.getElementById("employeeId").value.trim();
   const name = document.getElementById("name").value.trim();
-  const contact = document.getElementById("contact").value.trim();
+  let contact = document.getElementById("contact").value.trim();
   const email = document.getElementById("email").value.trim();
   const sign = signaturePad.toDataURL();
+
+  // 연락처에서 숫자만 추출
+  const contactDigits = contact.replace(/\D/g, '');
+  // 연락처가 정확히 11자리 숫자인지 확인
+  if (contactDigits.length !== 11) {
+    alert("⚠️연락처는 11자리(예:01012345678) 입니다.");
+    return;
+  }
+  // 하이픈이나 다른 문자가 있었다면 정리된 숫자 문자열로 교체
+  contact = contactDigits;
+
+  // 사용자에게 입력 내용을 확인시켜주는 메시지
+  const confirmationMessage = `
+입력하신 내용은 다음과 같습니다:
+  - 사번: ${employeeId}
+  - 성명: ${name}
+  - 연락처: ${contact}
+  - 이메일: ${email}
+
+제출하시겠습니까?
+  `;
+  if (!confirm(confirmationMessage)) {
+    return; // 사용자가 취소한 경우 제출 중단
+  }
 
   const formData = new URLSearchParams();
   formData.append("employeeId", employeeId);
@@ -91,42 +211,81 @@ document.getElementById("submitForm").addEventListener("submit", async function 
   formData.append("email", email);
   formData.append("sign", sign);
 
-  try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbzIKwQCwZfP20FMAGbZE5O8iDXgq-EaqXB-4kOQ2Y58itH9kWCuXmKsc3vR4GmV8t-U/exec", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: formData
-    });
+  fetch(WEBAPP_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: formData,
+  });
 
-    const text = await response.text();
-    console.log("서버 응답:", text);
-
-    let result;
-    try {
-      result = JSON.parse(text);
-    } catch (jsonErr) {
-      console.error("서버 응답 JSON 파싱 실패:", text);
-      throw new Error("서버 응답이 JSON 형식이 아닙니다.");
-    }
-
-    if (result.result === "success") {
-      statusEl.className = "alert alert-success";
-      statusEl.textContent = "제출이 완료되었습니다!";
-      statusEl.classList.remove("d-none");
-      document.getElementById("submitForm").reset();
-      signaturePad.clear();
-    } else {
-      throw new Error("서버가 성공 상태를 반환하지 않았습니다.");
-    }
-  } catch (err) {
-    statusEl.className = "alert alert-danger";
-    statusEl.textContent = "제출에 실패했습니다. 다시 시도해주세요.";
-    statusEl.classList.remove("d-none");
-    console.error("제출 오류:", err);
-  }
+  alert("🎉 정상제출되었습니다. \n 아래 리스트에서 제출내역을 확인해 주세요");
+  document.getElementById("submitForm").reset();
+  signaturePad.clear();
+  loadSubmissionList();
 });
-  </script
-</body>
+
+
+// 마스킹 함수들
+function maskEmployeeId(employeeId) {
+  employeeId = String(employeeId);
+  if (employeeId.length <= 2) return '*'.repeat(employeeId.length);
+  return employeeId.slice(0, -2) + '**';
+}
+
+function maskName(name) {
+  name = String(name);
+  if (name.length <= 2) return '*'.repeat(name.length);
+  return name.slice(0, -2) + '**';
+}
+
+function maskContact(contact) {
+  contact = String(contact);
+  // 숫자 데이터인 경우 앞에 '0'이 누락될 수 있으므로, 첫 글자가 '0'이 아니면 '0' 추가
+  if (contact && contact[0] !== '0') {
+    contact = '0' + contact;
+  }
+  // 가운데 4자리를 * 로 변경 (예: "01012345678" → "010****5678")
+  return contact.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+}
+
+
+// JSONP 응답을 처리할 전역 함수 (최대 5개 항목만 표시)
+function handleResponse(data) {
+  const table = document.getElementById("submissionList");
+  table.innerHTML = "";
+  // 최신 순으로 정렬 후 최대 5개 항목만 선택
+  const dataLimited = data.reverse().slice(0, 5);
+  dataLimited.forEach((item, index) => {
+    const row = `
+      <tr>
+        <td class="text-center">${dataLimited.length - index}</td>
+        <td class="text-center">${maskEmployeeId(item.employeeId)}</td>
+        <td class="text-center">${maskName(item.name)}</td>
+        <td class="text-center">${maskContact(item.contact)}</td>
+        <td class="text-center">${item.email}</td>
+      </tr>
+    `;
+    table.insertAdjacentHTML("beforeend", row);
+  });
+}
+      // JSONP 방식으로 데이터를 불러오는 함수
+      function loadSubmissionList() {
+        // 중복 요청 방지를 위한 이전 스크립트 제거
+        const oldScript = document.getElementById("jsonpScript");
+        if (oldScript) {
+          document.body.removeChild(oldScript);
+        }
+        // 새 스크립트 태그 생성 (callback 파라미터 포함)
+        const script = document.createElement("script");
+        script.id = "jsonpScript";
+        script.src = WEBAPP_URL + "?callback=handleResponse";
+        document.body.appendChild(script);
+      }
+
+      // 페이지 로드 시 데이터 불러오기
+      window.onload = loadSubmissionList;
+    </script>
+  </body>
 </html>
