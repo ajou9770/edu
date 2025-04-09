@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>서명 등록 폼 🖊️</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <!-- Signature Pad 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
+    <!-- Bootstrap CSS (이미 포함 중이라면 이 부분은 생략) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Bundle with Popper (팝오버 사용을 위해 필요) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <style>
+      /* 배경 그라데이션 효과 */
+      body {
+        background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+      }
+      /* 폼 카드 스타일 */
+      .form-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+      }
+      /* 서명 패드 스타일 */
+      #signature-pad {
+        border: 2px dashed #adb5bd;
+        border-radius: 8px;
+        height: 200px;
+        background: #f1f3f5;
+      }
+      canvas {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+      }
+      /* 레이블에 볼드체 */
+      .form-label {
+        font-weight: bold;
+      }
+      /* 헤더 타이틀 */
+      .header-title {
+        font-size: 1.75rem;
+        font-weight: bold;
+      }
+      /* 이모티콘과 텍스트 간 간격 */
+      .emoji {
+        margin-right: 5px;
+      }
+      .popover {
+  max-width: 220px; /* 필요에 따라 조정 */
+  z-index: 1050; /* 다른 요소 위에 표시 */
+}
+    </style>
+  </head>
+  <body class="bg-light">
+    <div class="container py-5">
+      <!-- 폼 헤더 -->
+      <h2 class="text-center header-title mb-4">서명 등록 폼 🖊️</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <!-- 입력 폼 -->
+          <form id="submitForm" class="card p-4 form-card">
+            <div class="mb-3">
+              <label class="form-label"><span class="emoji">💼</span>사번</label>
+              <input
+                type="number"
+                class="form-control"
+                id="employeeId"
+                placeholder="예: 12345"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label"><span class="emoji">👤</span>성명</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder="예: 홍길동"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label"><span class="emoji">📞</span>연락처</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="contact"
+                placeholder="예: 01012345678(숫자만)"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label"><span class="emoji">📧</span>이메일</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="예: example@example.com"
+              />
+            </div>
+            <!-- 기존 입력폼 항목들 사이에 주소입력폼 추가 (예: 이메일 아래) -->
+<div class="mb-3">
+    <label class="form-label"><span class="emoji">🏠</span>주소</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="address" placeholder="주소 검색 후 자동 입력" readonly required>
+      <button type="button" class="btn btn-secondary" id="btn-address-search">주소 검색</button>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label"><span class="emoji">🔍</span>상세주소</label>
+    <input type="text" class="form-control" id="detailAddress" placeholder="상세주소를 입력하세요" required>
+  </div>
+  
+            <div class="mb-3">
+              <label class="form-label"><span class="emoji">✍️</span>서명</label>
+              <div id="signature-pad">
+                <canvas></canvas>
+              </div>
+              <button
+                type="button"
+                class="btn btn-secondary btn-sm mt-2"
+                id="clear-signature"
+              >
+                🔂서명 지우기
+              </button>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-3">
+              제출하기 🚀
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- 응답 리스트 -->
+     <!-- 응답 리스트 영역 -->
+<div class="mt-5">
+    <h4 class="text-center mb-3">🗂 최근 등록된 내역</h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th class="text-center">순번</th>
+            <th class="text-center">사번</th>
+            <th class="text-center">성명</th>
+            <th class="text-center">연락처</th>
+            <th class="text-center">이메일</th>
+            <!-- <th class="text-center">Sign</th> -->
+          </tr>
+        </thead>
+        <tbody id="submissionList"></tbody>
+      </table>
+    </div>
+  </div>
+  
+    </div>
+
+    <script>
+// 주소 검색 버튼 클릭 이벤트
+document.getElementById('btn-address-search').addEventListener('click', function() {
+  new daum.Postcode({
+    oncomplete: function(data) {
+      // 도로명 주소와 지번 주소 중 선택 (여기서는 도로명 주소 사용)
+      var addr = (data.userSelectedType === 'R') ? data.roadAddress : data.jibunAddress;
+      document.getElementById('address').value = addr;
+      // 상세주소 입력란에 포커스
+      document.getElementById('detailAddress').focus();
+    }
+  }).open();
+});
+
+
+      // SignaturePad 초기화
+      const canvas = document.querySelector("canvas");
+    const signaturePad = new SignaturePad(canvas);
+    const WEBAPP_URL =
+      "https://script.google.com/macros/s/AKfycbxie_4bHpb6vMeEkWmmD829wD-rBfrClm6mupkb6jPz3hsLlDrXhivfj60dnnYqoCQW/exec";
+
+    // 캔버스 크기를 디바이스 픽셀 비율에 맞게 조절하는 함수
+    function resizeCanvas() {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      // 캔버스의 실제 크기를 조절
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      // 캔버스의 그리기 컨텍스트를 스케일링하여 해상도를 보정
+      canvas.getContext("2d").scale(ratio, ratio);
+      // 캔버스 내용 초기화 (resize 시 필요)
+      signaturePad.clear();
+    }
+    // 페이지 로드시와 창 크기 변경 시 캔버스 리사이즈
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    // 폼제출이벤트
+    document.getElementById("clear-signature").addEventListener("click", () => {
+      signaturePad.clear();
+    });
+
+    // 폼 제출 이벤트 (POST 요청은 no-cors 모드 사용)
+    document.getElementById("submitForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  // ... (서명, 기타 입력값 처리 코드)
+
+  const employeeId = document.getElementById("employeeId").value.trim();
+  const name = document.getElementById("name").value.trim();
+  let contact = document.getElementById("contact").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const detailAddress = document.getElementById("detailAddress").value.trim();
+  const sign = signaturePad.toDataURL();
+
+  // 연락처 숫자만 추출 후 길이 검증 등 기존 코드...
+  const contactDigits = contact.replace(/\D/g, '');
+  if (contactDigits.length !== 11) {
+    alert("연락처는 11자리 숫자(예: 01012345678)만 입력해 주세요.");
+    return;
+  }
+  contact = contactDigits;
+
+  // 사용자 확인 메시지에 주소 정보도 포함 (원하는 경우)
+  const confirmationMessage = `
+입력하신 내용은 다음과 같습니다:
+  - 사번: ${employeeId}
+  - 성명: ${name}
+  - 연락처: ${contact}
+  - 이메일: ${email}
+  - 주소: ${address} ${detailAddress}
+
+제출하시겠습니까?
+  `;
+  if (!confirm(confirmationMessage)) {
+    return; // 사용자가 취소한 경우 제출 중단
+  }
+
+  const formData = new URLSearchParams();
+  formData.append("employeeId", employeeId);
+  formData.append("name", name);
+  formData.append("contact", contact);
+  formData.append("email", email);
+  formData.append("address", address);
+  formData.append("detailAddress", detailAddress);
+  formData.append("sign", sign);
+
+  fetch(WEBAPP_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: formData,
+  });
+
+  alert("🎉 정상제출되었습니다. \n 아래 리스트에서 제출내역을 확인해 주세요");
+  document.getElementById("submitForm").reset();
+  signaturePad.clear();
+  loadSubmissionList();
+});
+
+
+
+// 마스킹 함수들
+function maskEmployeeId(employeeId) {
+  employeeId = String(employeeId);
+  if (employeeId.length <= 2) return '*'.repeat(employeeId.length);
+  return employeeId.slice(0, -2) + '**';
+}
+
+function maskName(name) {
+  name = String(name);
+  if (name.length <= 2) return '*'.repeat(name.length);
+  return name.slice(0, -2) + '**';
+}
+
+function maskContact(contact) {
+  contact = String(contact);
+  // 숫자 데이터인 경우 앞에 '0'이 누락될 수 있으므로, 첫 글자가 '0'이 아니면 '0' 추가
+  if (contact && contact[0] !== '0') {
+    contact = '0' + contact;
+  }
+  // 가운데 4자리를 * 로 변경 (예: "01012345678" → "010****5678")
+  return contact.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+}
+
+// 전역 JSONP 콜백 함수 – 받아온 데이터를 처리해 리스트에 표시 (최대 5개 항목)
+window.handleResponse = function(data) {
+    const table = document.getElementById("submissionList");
+    table.innerHTML = "";
+    // 최신순 정렬 후 최대 5개 항목만 선택
+    const dataLimited = data.reverse().slice(0, 5);
+    dataLimited.forEach((item, index) => {
+      const row = `
+        <tr>
+          <td class="text-center">${dataLimited.length - index}</td>
+          <td class="text-center">${maskEmployeeId(item.employeeId)}</td>
+          <td class="text-center">${maskName(item.name)}</td>
+          <td class="text-center">${maskContact(item.contact)}</td>
+          <td class="text-center">${item.email}</td>
+        </tr>
+      `;
+      table.insertAdjacentHTML("beforeend", row);
+    });
+    
+    // popover 초기화 – JS 옵션을 통해 배치와 컨테이너, 스타일 조정
+    const popoverTriggerList = document.querySelectorAll('.signature-popover');
+    popoverTriggerList.forEach(el => {
+      new bootstrap.Popover(el, {
+        container: "body",   // 컨테이너 옵션 조정 (필요에 따라 수정)
+        placement: "top"     // 버튼 위쪽에 표시
+      });
+    });
+  };
+
+  // JSONP 방식으로 데이터를 불러오는 함수
+  function loadSubmissionList() {
+    const oldScript = document.getElementById("jsonpScript");
+    if (oldScript) {
+      document.body.removeChild(oldScript);
+    }
+    const script = document.createElement("script");
+    script.id = "jsonpScript";
+    script.src = WEBAPP_URL + "?callback=handleResponse";
+    document.body.appendChild(script);
+  }
+
+  // DOMContentLoaded 시 데이터 불러오기
+  document.addEventListener("DOMContentLoaded", loadSubmissionList);
+    </script>
+  </body>
+</html>
