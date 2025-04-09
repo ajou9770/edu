@@ -78,12 +78,16 @@
   .carousel {
     padding-bottom: 0;
   } 
+  #entryList td {
+    font-weight: normal;
+    font-size: 0.9rem; /* 기본보다 살짝 작게 */
+  }
   </style>
 </head>
 <body class="bg-light">
-<div class="mb-4 position-relative" style="height: 400px; overflow: hidden;">
+<!-- <div class="mb-4 position-relative" style="height: 400px; overflow: hidden;">
   <img id="randomImage" class="position-absolute w-90 h-90 object-fit-cover fade-image" src="" alt="랜덤 산 이미지" />
-</div>
+</div> -->
 <div class="container py-5">
   <h4>
     <b>📢산악회 4월 산행 및 트래킹 안내.</b>
@@ -124,7 +128,7 @@
     </div>
 
     <div class="mb-2 d-flex align-items-center form-inline">
-      <label class="form-label">🚫 비회원</label>
+      <label class="form-label">✨예(비)회원</label>
       <select class="form-select" id="nonMembers">
         <option value="">✔선택</option>
         <option>1명</option><option>2명</option><option>3명</option><option>4명</option><option>5명</option>
@@ -132,7 +136,7 @@
     </div>
 
     <div class="mb-2 d-flex align-items-center form-inline" id="memberNamesGroup" style="display: none;">
-        <label class="form-label">👬 동반인</label>
+        <label class="form-label">👬 동반회원</label>
         <input type="text" class="form-control" id="memberNames" placeholder="동반회원(쉼표로 구분)">
       </div>
       
@@ -310,9 +314,9 @@ if (!/^\d{11}$/.test(data.contact)) {
     })
       .then(() => {
         alert("✅ 신청이 완료되었습니다!");
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        window.scrollBy({ top: 150, behavior: 'smooth' });
 
-          loadEntries();
+        loadEntries();
   
         // 입력값 초기화
         document.getElementById("name").value = '';
