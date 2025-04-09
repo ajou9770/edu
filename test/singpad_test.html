@@ -152,6 +152,7 @@
             <th class="text-center">성명</th>
             <th class="text-center">연락처</th>
             <th class="text-center">이메일</th>
+            <th class="text-center">Delete</th>
             <!-- <th class="text-center">Sign</th> -->
           </tr>
         </thead>
@@ -295,14 +296,17 @@ window.handleResponse = function(data) {
     const dataLimited = data.reverse().slice(0, 5);
     dataLimited.forEach((item, index) => {
       const row = `
-        <tr>
-          <td class="text-center">${dataLimited.length - index}</td>
-          <td class="text-center">${maskEmployeeId(item.employeeId)}</td>
-          <td class="text-center">${maskName(item.name)}</td>
-          <td class="text-center">${maskContact(item.contact)}</td>
-          <td class="text-center">${item.email}</td>
-        </tr>
-      `;
+  <tr>
+    <td class="text-center">${dataLimited.length - index}</td>
+    <td class="text-center">${maskEmployeeId(item.employeeId)}</td>
+    <td class="text-center">${maskName(item.name)}</td>
+    <td class="text-center">${maskContact(item.contact)}</td>
+    <td class="text-center">${item.email}</td>
+    <td class="text-center">
+      <button class="btn btn-sm btn-danger" onclick="handleDelete('${item.employeeId}', '${item.name}', '${item.contact}')">삭제</button>
+    </td>
+  </tr>
+`;
       table.insertAdjacentHTML("beforeend", row);
     });
     
@@ -330,6 +334,30 @@ window.handleResponse = function(data) {
 
   // DOMContentLoaded 시 데이터 불러오기
   document.addEventListener("DOMContentLoaded", loadSubmissionList);
+
+  function handleDelete(employeeId, name, contact) {
+  if (!confirm(`정말 삭제하시겠습니까?\n- 사번: ${employeeId}\n- 이름: ${name}`)) return;
+
+  // 이전 스크립트 삭제
+  const oldScript = document.getElementById("deleteScript");
+  if (oldScript) document.body.removeChild(oldScript);
+
+  // 새 JSONP 스크립트 삽입
+  const script = document.createElement("script");
+  script.id = "deleteScript";
+  script.src = `${WEBAPP_URL}?action=delete&employeeId=${encodeURIComponent(employeeId)}&name=${encodeURIComponent(name)}&contact=${encodeURIComponent(contact)}&callback=deleteCallback`;
+  document.body.appendChild(script);
+}
+
+// 삭제 완료 후 리스트 갱신
+function deleteCallback(response) {
+  if (response.status === "success") {
+    alert("🗑️ 삭제가 완료되었습니다.");
+    loadSubmissionList();
+  } else {
+    alert("⚠️ 삭제에 실패했습니다.");
+  }
+}
     </script>
   </body>
 </html>
