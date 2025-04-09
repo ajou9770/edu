@@ -88,7 +88,7 @@
 <!-- <div class="mb-4 position-relative" style="height: 400px; overflow: hidden;">
   <img id="randomImage" class="position-absolute w-90 h-90 object-fit-cover fade-image" src="" alt="랜덤 산 이미지" />
 </div> -->
-<div class="container py-5">
+<div class="container py-3">
   <h4>
     <b>📢산악회 4월 산행 및 트래킹 안내.</b>
 </h4><br>
@@ -106,7 +106,7 @@
    <!--  <a href="https://ajou9770.github.io/trip" target="_blank">✔️문탐동아리 10월 12일(토) 영주(풍기)탐방 일정(신청)▶️</a> -->
 </p>  
 <hr>
-  <h5 class="text-center mb-4">⛰ 참가 신청서</h5>
+  <h5 class="text-center mb-3">⛰ 참가 신청서</h5>
 
   <div class="card p-4 shadow">
     <div class="mb-2 d-flex align-items-center form-inline">
@@ -157,8 +157,12 @@
 
     <button class="btn btn-primary w-100" onclick="submitForm()">📥 신청하기</button>
   </div>
-
-  <h5 class="mt-5">
+  <span class="mt-3"><mark>
+    💬변경 신청시는 아래 내역에서 삭제 후 다시 신청해 주세요
+    <br> (※취소는 삭제 처리)
+  </mark>
+  </span>
+  <h5 class="mt-3">
     📋 신청 내역 
     <span id="totalCount" class="text-primary ms-2" style="font-size: medium;"></span>
   </h5>
@@ -375,6 +379,7 @@ function deleteEntry(time, name) {
     .then(() => {
       alert("✅ 삭제되었습니다.\n다시 신청해 주세요.");
       location.reload(); // 새로고침으로 반영
+      window.scrollBy({ top: 150, behavior: 'smooth' });
     })
     .catch(err => {
       alert("❌ 삭제 실패: " + err);
